@@ -1,12 +1,12 @@
 <?php
 
-namespace ByTIC\DataTransferObject\Utility;
+namespace ByTIC\DataObjects\Utility;
 
 /**
  * Class Constants
- * @package ByTIC\DataTransferObject\Utility
+ * @package ByTIC\DataObjects\Utility
  */
 class Constants
 {
-    public const NO_MUTATOR_FOUND = 'NO_MUTATOR_FOUND';
+    public const NO_ACCESSORS_FOUND = 'NO_ACCESSORS_FOUND';
 }

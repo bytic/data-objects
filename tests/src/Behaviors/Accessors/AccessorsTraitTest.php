@@ -1,24 +1,24 @@
 <?php
 
-namespace ByTIC\DataTransferObject\Tests\Behaviors\Accessors;
+namespace ByTIC\DataObjects\Tests\Behaviors\Accessors;
 
-use ByTIC\DataTransferObject\BaseDto;
-use ByTIC\DataTransferObject\Tests\AbstractTest;
+use ByTIC\DataObjects\Tests\AbstractTest;
+use ByTIC\DataObjects\Tests\Fixtures\Models\Books\Book;
 
 /**
  * Class AccessorsTraitTest
- * @package ByTIC\DataTransferObject\Tests\Behaviors\ArrayAccess
+ * @package ByTIC\DataObjects\Tests\Behaviors\ArrayAccess
  */
 class AccessorsTraitTest extends AbstractTest
 {
-    public function test_fill()
-    {
-        $object = new BaseDto();
-        $object->fill(['test1' => 'value1']);
-        self::assertSame('value1', $object->test1);
 
-        $object->fill(['test1' => 'value11','test2' => 'value2']);
-        self::assertSame('value11', $object->test1);
-        self::assertSame('value2', $object->test2);
+    public function test_compileMutators_only_once()
+    {
+        $book1 = new Book();
+        $book1->name = 'Test';
+
+        self::assertSame('Test', $book1->name);
+        self::assertSame(1, $book1::$compiled);
     }
+
 }

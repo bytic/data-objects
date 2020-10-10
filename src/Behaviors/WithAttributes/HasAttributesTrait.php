@@ -1,10 +1,10 @@
 <?php
 
-namespace ByTIC\DataTransferObject\Behaviors\WithAttributes;
+namespace ByTIC\DataObjects\Behaviors\WithAttributes;
 
 /**
  * Trait HasAttributesTrait
- * @package ByTIC\DataTransferObject\Behaviors\WithAttributes
+ * @package ByTIC\DataObjects\Behaviors\WithAttributes
  */
 trait HasAttributesTrait
 {
@@ -34,6 +34,19 @@ trait HasAttributesTrait
     }
 
     /**
+     * @param string $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getPropertyRaw(string $key, $default = null)
+    {
+        if (!isset($this->attributes[$key])) {
+            return $default;
+        }
+        return $this->attributes[$key];
+    }
+
+    /**
      * Get an attribute from the model.
      *
      * @param string $key
@@ -51,12 +64,37 @@ trait HasAttributesTrait
      * @param $key
      * @param $value
      * @return $this
+     */
+    public function setPropertyValue($key, $value)
+    {
+        if (property_exists($this, $key)) {
+            $this->{$key} = $value;
+        }
+        $this->attributes[$key] = $value;
+        return $this;
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     * @return $this
      * @noinspection PhpMissingReturnTypeInspection
      */
     public function setAttribute($key, $value)
     {
         $this->attributes[$key] = $value;
         return $this;
+    }
+
+    /**
+     * @param $prop
+     */
+    protected function unsetProperty($prop)
+    {
+        if (property_exists($this, $prop)) {
+            unset($this->{$prop});
+        }
+        $this->unsetAttribute($prop);
     }
 
     /**

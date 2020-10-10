@@ -1,12 +1,12 @@
 <?php
 
-namespace ByTIC\DataTransferObject\Tests;
+namespace ByTIC\DataObjects\Tests;
 
-use ByTIC\DataTransferObject\Tests\Fixtures\Models\Books\Book;
+use ByTIC\DataObjects\Tests\Fixtures\Models\Books\Book;
 
 /**
  * Class BaseDtoTest
- * @package ByTIC\DataTransferObject\Tests
+ * @package ByTIC\DataObjects\Tests
  */
 class BaseDtoTest extends AbstractTest
 {

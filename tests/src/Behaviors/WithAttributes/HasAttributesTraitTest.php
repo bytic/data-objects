@@ -1,13 +1,13 @@
 <?php
 
-namespace ByTIC\DataTransferObject\Tests\Behaviors\WithAttributes;
+namespace ByTIC\DataObjects\Tests\Behaviors\WithAttributes;
 
-use ByTIC\DataTransferObject\BaseDto;
-use ByTIC\DataTransferObject\Tests\AbstractTest;
+use ByTIC\DataObjects\BaseDto;
+use ByTIC\DataObjects\Tests\AbstractTest;
 
 /**
  * Class HasAttributesTraitTest
- * @package ByTIC\DataTransferObject\Tests\Behaviors\WithAttributes
+ * @package ByTIC\DataObjects\Tests\Behaviors\WithAttributes
  */
 class HasAttributesTraitTest extends AbstractTest
 {

@@ -1,80 +1,28 @@
 <?php
 
-namespace ByTIC\DataTransferObject;
+namespace ByTIC\DataObjects;
 
-use ByTIC\DataTransferObject\Utility\Constants;
+use ByTIC\DataObjects\Utility\Constants;
 
 /**
  * Class BaseDto
- * @package ByTIC\DataTransferObject
+ * @package ByTIC\DataObjects
  */
-class BaseDto implements \ArrayAccess
+class BaseDto extends AbstractDto
 {
-    use Behaviors\Accessors\AccessorsTrait;
-    use Behaviors\ArrayAccess\ArrayAccessTrait;
+    use Behaviors\TrackOriginal\TrackOriginalTrait;
     use Behaviors\WithAttributes\HasAttributesTrait;
-    use Behaviors\Mutators\MutatorsTrait;
+    use Behaviors\Castable\CastableTrait;
 
     /**
-     * @param $name
-     * @param null $default
-     * @return mixed|void
+     * Allows filling in Entity parameters during construction.
+     *
+     * @param array|null $data
      */
-    public function get($name, $default = null)
+    public function __construct(array $data = null)
     {
-        if (!$name) {
-            return;
-        }
-
-        $value = $this->getMutated($name);
-        if ($value != Constants::NO_MUTATOR_FOUND) {
-            return $value;
-        }
-
-        if ($this->hasAttribute($name)) {
-            return $this->getAttribute($name);
-        }
-
-        if (property_exists($this, $name)) {
-            return $this->{$name};
-        }
-
-        return $default;
+        $this->syncOriginal();
+        $this->fill($data);
     }
 
-    /**
-     * @param $name
-     * @param $value
-     * @return mixed|void
-     */
-    public function set($name, $value)
-    {
-        if (!$name) {
-            return $this;
-        }
-
-        $return = $this->setMutated($name, $value);
-        if ($return != Constants::NO_MUTATOR_FOUND) {
-            return $return;
-        }
-
-        if (property_exists($this, $name)) {
-            $this->{$name} = $value;
-        }
-
-        return $this->setAttribute($name, $value);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function unset($field)
-    {
-        $field = (array)$field;
-        foreach ($field as $prop) {
-            $this->unsetAttribute($prop);
-        }
-
-        return $this;
-    }
 }

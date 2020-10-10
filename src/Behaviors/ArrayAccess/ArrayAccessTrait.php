@@ -1,10 +1,10 @@
 <?php
 
-namespace ByTIC\DataTransferObject\Behaviors\ArrayAccess;
+namespace ByTIC\DataObjects\Behaviors\ArrayAccess;
 
 /**
  * Trait ArrayAccessTrait
- * @package ByTIC\DataTransferObject\Behaviors\ArrayAccess
+ * @package ByTIC\DataObjects\Behaviors\ArrayAccess
  */
 trait ArrayAccessTrait
 {

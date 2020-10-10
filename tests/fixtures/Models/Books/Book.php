@@ -1,17 +1,21 @@
 <?php
 
-namespace ByTIC\DataTransferObject\Tests\Fixtures\Models\Books;
+namespace ByTIC\DataObjects\Tests\Fixtures\Models\Books;
 
-use ByTIC\DataTransferObject\BaseDto;
+use ByTIC\DataObjects\BaseDto;
 
 /**
  * Class Book
- * @package ByTIC\DataTransferObject\Tests\Fixtures\Models\Books
+ * @package ByTIC\DataObjects\Tests\Fixtures\Models\Books
  */
 class Book extends BaseDto
 {
     protected $name;
     protected $title;
+
+    protected $casts = [
+        'created' => 'datetime'
+    ];
 
     public static $compiled = 0;
 

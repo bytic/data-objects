@@ -1,13 +1,13 @@
 <?php
 
-namespace ByTIC\DataTransferObject\Tests\Behaviors\ArrayAccess;
+namespace ByTIC\DataObjects\Tests\Behaviors\ArrayAccess;
 
-use ByTIC\DataTransferObject\BaseDto;
-use ByTIC\DataTransferObject\Tests\AbstractTest;
+use ByTIC\DataObjects\BaseDto;
+use ByTIC\DataObjects\Tests\AbstractTest;
 
 /**
  * Class ArrayAccessTraitTest
- * @package ByTIC\DataTransferObject\Tests\Behaviors\ArrayAccess
+ * @package ByTIC\DataObjects\Tests\Behaviors\ArrayAccess
  */
 class ArrayAccessTraitTest extends AbstractTest
 {

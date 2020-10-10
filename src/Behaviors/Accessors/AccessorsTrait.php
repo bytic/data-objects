@@ -1,179 +1,153 @@
 <?php
 
-namespace ByTIC\DataTransferObject\Behaviors\Accessors;
+namespace ByTIC\DataObjects\Behaviors\Accessors;
+
+use ByTIC\DataObjects\Utility\Constants;
+use Nip\Inflector\Inflector;
+use Nip\Utility\Str;
 
 /**
  * Trait AccessorsTrait
- * @package ByTIC\DataTransferObject\Behaviors\Accessors
+ * @package ByTIC\DataObjects\Behaviors\Accessors
  */
 trait AccessorsTrait
 {
     /**
-     * @param bool $data
-     * @return \ByTIC\DataTransferObject\BaseDto|AccessorsTrait
-     * @deprecated use fill($data)
+     * The attributes that should use mutators.
+     *
+     * @var array
      */
-    public function writeData($data = false)
-    {
-        return $this->fill($data);
-    }
+    protected static $accessors = [
+        'get' => [],
+        'set' => [],
+    ];
 
     /**
-     * @param array|null $data
-     * @return $this
-     * @noinspection PhpMissingReturnTypeInspection
-     */
-    public function fill(array $data = null)
-    {
-        if (!is_array($data)) {
-            return $this;
-        }
-
-        foreach ($data as $key => $value) {
-            $this->set($key, $value);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param $name
+     * @param $key
      * @return mixed
      */
-    public function __get($name)
+    public function getMutated($key)
     {
-        return $this->get($name);
-    }
-
-    /**
-     * @param $name
-     * @param null $default
-     * @return mixed|void
-     */
-    public function get($name, $default = null)
-    {
-        return isset($this->{$name}) ? $this->{$name} : $default;
-    }
-
-    /**
-     * @param $name
-     * @param $value
-     * @return mixed
-     */
-    public function __set($name, $value)
-    {
-        return $this->set($name, $value);
-    }
-
-    /**
-     * @param $name
-     * @param $value
-     * @return mixed
-     */
-    public function set($name, $value)
-    {
-        return $this->{$name} = $value;
+        return $this->callAccessors('get', $key);
     }
 
     /**
      * @param $key
-     * @return bool
+     * @return mixed
      */
-    public function __isset($key): bool
+    public function setMutated($key, $value)
     {
-        return $this->has($key);
+        return $this->callAccessors('set', $key, [$value]);
     }
 
     /**
-     * @param string|array $key
+     * @param string $type
+     * @param string $key
+     * @param array $params
+     * @return mixed
+     */
+    protected function callAccessors(string $type, string $key, $params = [])
+    {
+        $method = static::getMutator($type, $key);
+        if ($method) {
+            return $this->{$method}(...$params);
+        }
+        return Constants::NO_ACCESSORS_FOUND;
+    }
+
+    /**
+     * Determine if a set mutator exists for an attribute.
+     *
+     * @param string $key
      * @return bool
      */
-    public function has($key): bool
+    protected function hasSetMutator(string $key): bool
     {
-        foreach ((array)$key as $prop) {
-            if ($this->get($prop) === null) {
-                return false;
+        return $this->hasMutator('set', $key);
+    }
+
+
+    /**
+     * Determine if a get mutator exists for an attribute.
+     *
+     * @param string $key
+     * @return bool
+     */
+    protected function hasGetMutator(string $key): bool
+    {
+        return $this->hasMutator('get', $key);
+    }
+
+    /**
+     * Determine if a set mutator exists for an attribute.
+     *
+     * @param string $type
+     * @param string $key
+     * @return bool
+     */
+    protected static function hasMutator(string $type, string $key): bool
+    {
+        return !empty(static::getMutator($type, $key));
+    }
+
+    protected static function getMutator(string $type, string $key): string
+    {
+        $class = static::class;
+
+        if (isset(static::$accessors[$class][$type][$key])) {
+            return static::$accessors[$class][$type][$key];
+        }
+
+        if (empty(static::$accessors[$class])) {
+            static::compileMutators();
+        }
+
+        if (!empty(static::$accessors[$class])) {
+            return static::$accessors[$class][$type][$key] = '';
+        }
+
+        if (!isset(static::$accessors[$class][$type][$key])) {
+            static::$accessors[$class][$type][$key] = '';
+        }
+
+        return static::$accessors[$class][$type][$key];
+    }
+
+    protected static function compileMutators()
+    {
+        $class = static::class;
+
+        foreach (get_class_methods($class) as $method) {
+            $prefix = substr($method, 1, 3);
+            if ($prefix !== 'get' && $prefix !== 'set') {
+                continue;
             }
+
+            $field = substr($method, 4);
+            if (Str::endsWith($field, 'Attribute')) {
+                $field = substr($method, 0, -9);
+            }
+
+            static::compileAccessorsMethod($class, $prefix, $method, $field);
         }
-
-        return true;
     }
 
     /**
-     * @param $key
-     * @return $this
-     */
-    public function __unset($key)
-    {
-        return $this->unset($key);
-    }
-
-    /**
+     * @param $class
+     * @param $prefix
+     * @param $method
      * @param $field
-     * @return $this
      */
-    public function unset($field)
+    protected static function compileAccessorsMethod($class, $prefix, $method, $field)
     {
-        $field = (array)$field;
-        foreach ($field as $prop) {
-            unset($this->{$prop});
-        }
+        $field = lcfirst($field);
+        static::$accessors[$class][$prefix][$field] = $method;
 
-        return $this;
-    }
+        /** @noinspection PhpDynamicAsStaticMethodCallInspection */
+        $snakeField = Inflector::underscore($field);
+        static::$accessors[$class][$prefix][$snakeField] = $method;
 
-    /**
-     * Checks that a field is empty
-     *
-     * This is not working like the PHP `empty()` function. The method will
-     * return true for:
-     *
-     * - `''` (empty string)
-     * - `null`
-     * - `[]`
-     *
-     * and false in all other cases.
-     *
-     * @param string $field The field to check.
-     * @return bool
-     */
-    public function isEmpty(string $field): bool
-    {
-        $value = $this->get($field);
-
-        if ($value === null) {
-            return true;
-        }
-
-        if (is_array($value) && empty($value)) {
-            return true;
-        }
-
-        if (is_string($value) && empty($value)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Checks tha a field has a value.
-     *
-     * This method will return true for
-     *
-     * - Non-empty strings
-     * - Non-empty arrays
-     * - Any object
-     * - Integer, even `0`
-     * - Float, even 0.0
-     *
-     * and false in all other cases.
-     *
-     * @param string $field The field to check.
-     * @return bool
-     */
-    public function hasValue(string $field): bool
-    {
-        return !$this->isEmpty($field);
+        $titleField = ucfirst($field);
+        static::$accessors[$class][$prefix][$titleField] = $method;
     }
 }
