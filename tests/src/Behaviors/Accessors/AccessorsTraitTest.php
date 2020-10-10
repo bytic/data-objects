@@ -21,4 +21,20 @@ class AccessorsTraitTest extends AbstractTest
         self::assertSame(1, $book1::$compiled);
     }
 
+    public function test_getter_internal_property()
+    {
+        $book1 = new Book(['name' => 'test']);
+
+        self::assertSame('Test', $book1->name);
+        self::assertSame('Test', $book1->getName());
+        self::assertSame('Test', $book1->getAttribute('name'));
+    }
+
+    public function test_callAccessors_setter()
+    {
+        $book1 = new Book();
+        $book1->name = 'test';
+
+        self::assertSame('Test', $book1->name);
+    }
 }

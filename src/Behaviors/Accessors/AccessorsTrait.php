@@ -94,12 +94,12 @@ trait AccessorsTrait
     {
         $class = static::class;
 
-        if (isset(static::$accessors[$class][$type][$key])) {
-            return static::$accessors[$class][$type][$key];
-        }
-
         if (empty(static::$accessors[$class])) {
             static::compileMutators();
+        }
+
+        if (isset(static::$accessors[$class][$type][$key])) {
+            return static::$accessors[$class][$type][$key];
         }
 
         if (!empty(static::$accessors[$class])) {
@@ -118,12 +118,15 @@ trait AccessorsTrait
         $class = static::class;
 
         foreach (get_class_methods($class) as $method) {
-            $prefix = substr($method, 1, 3);
+            if (in_array($method, ['get','set'])) {
+                continue;
+            }
+            $prefix = substr($method, 0, 3);
             if ($prefix !== 'get' && $prefix !== 'set') {
                 continue;
             }
 
-            $field = substr($method, 4);
+            $field = substr($method, 3);
             if (Str::endsWith($field, 'Attribute')) {
                 $field = substr($method, 0, -9);
             }

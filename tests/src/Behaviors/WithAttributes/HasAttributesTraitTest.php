@@ -4,6 +4,7 @@ namespace ByTIC\DataObjects\Tests\Behaviors\WithAttributes;
 
 use ByTIC\DataObjects\BaseDto;
 use ByTIC\DataObjects\Tests\AbstractTest;
+use ByTIC\DataObjects\Tests\Fixtures\Models\Books\Book;
 
 /**
  * Class HasAttributesTraitTest
@@ -17,7 +18,6 @@ class HasAttributesTraitTest extends AbstractTest
         self::assertIsArray($object->getAttributes());
     }
 
-
     public function test_setAttribute()
     {
         $object = new BaseDto();
@@ -26,5 +26,16 @@ class HasAttributesTraitTest extends AbstractTest
         $object->setAttribute('test', 'value');
         self::assertTrue($object->hasAttribute('test'));
         self::assertSame('value', $object->getAttribute('test'));
+    }
+
+    public function test_setAttribute_with_internal_property()
+    {
+        $object = new Book();
+        self::assertFalse($object->hasAttribute('name'));
+
+        $object->name = 'test';
+        self::assertSame('Test', $object->getAttribute('name'));
+        self::assertSame('Test', $object->name);
+        self::assertSame('Test', $object->getName());
     }
 }

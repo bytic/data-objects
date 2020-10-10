@@ -24,7 +24,7 @@ class Book extends BaseDto
      */
     public function setName(string $name)
     {
-        $this->name = $name;
+        $this->setPropertyValue('name', ucfirst($name));
     }
 
     public function getName()
