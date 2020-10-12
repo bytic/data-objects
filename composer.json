@@ -13,7 +13,10 @@
     "autoload": {
         "psr-4": {
             "ByTIC\\DataObjects\\": "src"
-        }
+        },
+        "classmap": [
+            "legacy"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

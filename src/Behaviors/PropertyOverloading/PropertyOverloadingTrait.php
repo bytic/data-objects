@@ -8,16 +8,7 @@ namespace ByTIC\DataObjects\Behaviors\PropertyOverloading;
  */
 trait PropertyOverloadingTrait
 {
-
-    /**
-     * @param bool $data
-     * @return \ByTIC\DataObjects\BaseDto|PropertyOverloadingTrait
-     * @deprecated use fill($data)
-     */
-    public function writeData($data = false)
-    {
-        return $this->fill($data);
-    }
+    use \ByTIC\DataObjects\Legacy\Behaviors\OldAccessingPatternsTrait;
 
     /**
      * @param array|null $data
