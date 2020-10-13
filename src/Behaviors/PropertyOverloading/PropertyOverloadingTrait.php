@@ -44,7 +44,7 @@ trait PropertyOverloadingTrait
      */
     public function get($name, $default = null)
     {
-        return $this->getPropertyValue($name,  $default);
+        return $this->getPropertyValue($name, $default);
     }
 
     /**

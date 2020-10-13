@@ -12,7 +12,6 @@ use ByTIC\DataObjects\Tests\Fixtures\Models\Books\Book;
  */
 class AccessorsTraitTest extends AbstractTest
 {
-
     public function test_compileMutators_only_once()
     {
         $book1 = new Book();

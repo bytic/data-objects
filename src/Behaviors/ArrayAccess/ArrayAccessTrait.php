@@ -8,7 +8,6 @@ namespace ByTIC\DataObjects\Behaviors\ArrayAccess;
  */
 trait ArrayAccessTrait
 {
-
     /**
      * Determine if the given attribute exists.
      *

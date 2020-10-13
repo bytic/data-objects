@@ -24,5 +24,4 @@ class BaseDto extends AbstractDto
         $this->syncOriginal();
         $this->fill($data);
     }
-
 }
