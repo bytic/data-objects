@@ -11,6 +11,5 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/bytic/data-objects.svg?style=flat-square)](https://packagist.org/packages/bytic/data-objects)
 
 
-
 #### Inspiration
 https://github.com/yiisoft/yii2/blob/master/framework/base/BaseObject.php

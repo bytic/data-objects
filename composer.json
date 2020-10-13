@@ -1,7 +1,7 @@
 {
     "name": "bytic/data-objects",
     "type": "library",
-    "description": "Php Framework",
+    "description": "Data objects for with property mutators and casting",
     "homepage": "https://github.com/bytic/data-objects",
     "license": "MIT",
     "authors": [
