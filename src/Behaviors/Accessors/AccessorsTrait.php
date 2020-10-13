@@ -49,10 +49,23 @@ trait AccessorsTrait
     protected function callAccessors(string $type, string $key, $params = [])
     {
         $method = static::getMutator($type, $key);
-        if ($method) {
-            return $this->{$method}(...$params);
+        if (!$method) {
+            return Constants::NO_ACCESSORS_FOUND;
         }
-        return Constants::NO_ACCESSORS_FOUND;
+        try {
+            return $this->{$method}(...$params);
+        } catch (\Exception $exception) {
+            $message = $exception->getMessage();
+            if (Str::startsWith($message, 'Undefined property:') && Str::endsWith($message, '::$'. $key)) {
+                if ($type === 'get') {
+                    return $this->getPropertyRaw($key);
+                } elseif ($type === 'set') {
+                    return $this->setPropertyRaw($key, $params[0]);
+                }
+            }
+            throw $exception;
+        }
+
     }
 
     /**
