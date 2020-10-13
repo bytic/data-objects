@@ -12,7 +12,6 @@ use DateTimeInterface;
  */
 class ValueCaster
 {
-
     /**
      * The built-in, primitive cast types
      *
@@ -159,7 +158,8 @@ class ValueCaster
         // when checking the field. We will just return the DateTime right away.
         if ($value instanceof DateTimeInterface) {
             return Carbon::parse(
-                $value->format('Y-m-d H:i:s.u'), $value->getTimezone()
+                $value->format('Y-m-d H:i:s.u'),
+                $value->getTimezone()
             );
         }
 

@@ -41,5 +41,4 @@ trait OldAccessingPatternsTrait
     {
         return $this->getPropertyRaw($key);
     }
-
 }

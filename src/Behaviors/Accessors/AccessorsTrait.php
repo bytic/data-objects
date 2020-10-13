@@ -56,7 +56,7 @@ trait AccessorsTrait
             return $this->{$method}(...$params);
         } catch (\Exception $exception) {
             $message = $exception->getMessage();
-            if (Str::startsWith($message, 'Undefined property:') && Str::endsWith($message, '::$'. $key)) {
+            if (Str::startsWith($message, 'Undefined property:') && Str::endsWith($message, '::$' . $key)) {
                 if ($type === 'get') {
                     return $this->getPropertyRaw($key);
                 } elseif ($type === 'set') {
@@ -65,7 +65,6 @@ trait AccessorsTrait
             }
             throw $exception;
         }
-
     }
 
     /**
