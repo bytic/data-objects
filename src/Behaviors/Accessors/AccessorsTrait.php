@@ -3,6 +3,7 @@
 namespace ByTIC\DataObjects\Behaviors\Accessors;
 
 use ByTIC\DataObjects\Utility\Constants;
+use Exception;
 use Nip\Inflector\Inflector;
 use Nip\Utility\Str;
 
@@ -25,18 +26,23 @@ trait AccessorsTrait
     /**
      * @param $key
      * @return mixed
+     * @noinspection PhpDocMissingThrowsInspection
      */
     public function getMutated($key)
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         return $this->callAccessors('get', $key);
     }
 
     /**
      * @param $key
+     * @param $value
      * @return mixed
+     * @noinspection PhpDocMissingThrowsInspection
      */
     public function setMutated($key, $value)
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         return $this->callAccessors('set', $key, [$value]);
     }
 
@@ -45,6 +51,7 @@ trait AccessorsTrait
      * @param string $key
      * @param array $params
      * @return mixed
+     * @throws Exception
      */
     protected function callAccessors(string $type, string $key, $params = [])
     {
@@ -54,13 +61,11 @@ trait AccessorsTrait
         }
         try {
             return $this->{$method}(...$params);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $message = $exception->getMessage();
             if (Str::startsWith($message, 'Undefined property:') && Str::endsWith($message, '::$' . $key)) {
                 if ($type === 'get') {
                     return $this->getPropertyRaw($key);
-                } elseif ($type === 'set') {
-                    return $this->setPropertyRaw($key, $params[0]);
                 }
             }
             throw $exception;
@@ -75,7 +80,7 @@ trait AccessorsTrait
      */
     protected function hasSetMutator(string $key): bool
     {
-        return $this->hasMutator('set', $key);
+        return static::hasMutator('set', $key);
     }
 
 
@@ -87,7 +92,7 @@ trait AccessorsTrait
      */
     protected function hasGetMutator(string $key): bool
     {
-        return $this->hasMutator('get', $key);
+        return static::hasMutator('get', $key);
     }
 
     /**
@@ -140,7 +145,7 @@ trait AccessorsTrait
 
             $field = substr($method, 3);
             if (Str::endsWith($field, 'Attribute')) {
-                $field = substr($method, 0, -9);
+                $field = substr($field, 0, -9);
             }
 
             static::compileAccessorsMethod($class, $prefix, $method, $field);
