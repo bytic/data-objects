@@ -63,19 +63,10 @@ trait AccessorsTrait
             return $this->{$method}(...$params);
         }
 
-        static $inAccess = [];
-        if (isset($inAccess[$type])) {
-            return $this->getPropertyRaw($key);
-        }
-
         try {
             set_error_handler(
                 function ($errno, $errstr, $errfile, $errline) use ($type, $key) {
-                    if (Str::startsWith($errstr, 'Undefined property:')
-                        && Str::endsWith($errstr, '::$' . $key)) {
-                        return $this->getPropertyRaw($key);
-                    }
-                    return;
+                    throw new Exception($errstr, $errno);
                 },
                 E_NOTICE
             );
