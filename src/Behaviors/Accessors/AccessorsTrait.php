@@ -67,7 +67,7 @@ trait AccessorsTrait
         if (isset($inAccess[$type])) {
             return $this->getPropertyRaw($key);
         }
-        
+
         try {
             set_error_handler(
                 function ($errno, $errstr, $errfile, $errline) use ($type, $key) {
