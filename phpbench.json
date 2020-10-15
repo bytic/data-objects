@@ -1,0 +1,15 @@
+{
+  "bootstrap": "vendor/autoload.php",
+  "path": "tests/benchmarks",
+  "outputs": {
+    "html": {
+      "extends": "html",
+      "file": "tests/benchmarks/reports/report.html",
+      "title": "Hello World"
+    }
+  },
+  "time_unit": "milliseconds",
+  "php_config": {
+    "memory_limit": "512M"
+  }
+}

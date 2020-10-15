@@ -59,14 +59,34 @@ trait AccessorsTrait
         if (!$method) {
             return Constants::NO_ACCESSORS_FOUND;
         }
-        try {
+        if ($type !== 'get') {
             return $this->{$method}(...$params);
+        }
+
+        static $inAccess = [];
+        if (isset($inAccess[$type])) {
+            return $this->getPropertyRaw($key);
+        }
+        
+        try {
+            set_error_handler(
+                function ($errno, $errstr, $errfile, $errline) use ($type, $key) {
+                    if (Str::startsWith($errstr, 'Undefined property:')
+                        && Str::endsWith($errstr, '::$' . $key)) {
+                        return $this->getPropertyRaw($key);
+                    }
+                    return;
+                },
+                E_NOTICE
+            );
+            $return = $this->{$method}(...$params);
+            restore_error_handler();
+            return $return;
         } catch (Exception $exception) {
             $message = $exception->getMessage();
-            if (Str::startsWith($message, 'Undefined property:') && Str::endsWith($message, '::$' . $key)) {
-                if ($type === 'get') {
-                    return $this->getPropertyRaw($key);
-                }
+            if (Str::startsWith($message, 'Undefined property:')
+                && Str::endsWith($message, '::$' . $key)) {
+                return $this->getPropertyRaw($key);
             }
             throw $exception;
         }

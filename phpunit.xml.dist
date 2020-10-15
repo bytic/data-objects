@@ -5,13 +5,8 @@
          backupStaticAttributes="false"
          colors="true"
          convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          bootstrap="tests/bootstrap.php"
-         failOnRisky="true"
-         failOnWarning="true"
-         stopOnError="false"
-         stopOnFailure="false"
          verbose="true">
     <coverage processUncoveredFiles="true">
         <include>

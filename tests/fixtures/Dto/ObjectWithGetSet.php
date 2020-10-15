@@ -12,6 +12,8 @@ use ByTIC\DataObjects\BaseDto;
  */
 class ObjectWithGetSet extends BaseDto
 {
+    protected $title;
+
     /**
      * @return mixed
      */
@@ -28,4 +30,21 @@ class ObjectWithGetSet extends BaseDto
     {
         return $this->name = $value;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title): void
+    {
+        $this->title = $title;
+    }
+
 }

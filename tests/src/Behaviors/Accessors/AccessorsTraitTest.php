@@ -50,6 +50,9 @@ class AccessorsTraitTest extends AbstractTest
 
     public function test_setter_magic_property()
     {
+        $object = new ObjectWithGetSet();
+        self::assertSame(null, $object->name);
+
         $object = new ObjectWithGetSet(['name' => 'test']);
 
         self::assertSame('test', $object->name);
