@@ -26,7 +26,7 @@ trait OldDBDataTrait
      */
     public function getDBData()
     {
-        return $this->getOriginal();
+        return $this->getOriginalData();
     }
 
     /**

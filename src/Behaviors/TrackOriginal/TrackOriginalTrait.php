@@ -30,7 +30,7 @@ trait TrackOriginalTrait
         }
     }
 
-    public function getOriginal(): array
+    public function getOriginalData(): array
     {
         return $this->original;
     }
@@ -42,7 +42,7 @@ trait TrackOriginalTrait
      * @param null $default
      * @return mixed
      */
-    public function getOriginalField(string $field, $default = null)
+    public function getOriginal(string $field, $default = null)
     {
         if (!strlen($field)) {
             throw new InvalidArgumentException('Cannot get an empty field');
@@ -72,9 +72,15 @@ trait TrackOriginalTrait
      *
      * @return $this
      */
-    public function syncOriginal()
+    public function syncOriginal(): self
     {
-        $this->original = $this->getAttributes();
+        $keys = array_merge(array_keys($this->original), array_keys($this->getAttributes()));
+        $keys =  array_unique(array_filter($keys));
+        $data = [];
+        foreach ($keys as $key) {
+            $data[$key] = $this->getPropertyRaw($key);
+        }
+        $this->original = $data;
         return $this;
     }
 
