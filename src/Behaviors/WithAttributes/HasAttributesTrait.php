@@ -40,10 +40,10 @@ trait HasAttributesTrait
      */
     public function getPropertyRaw(string $key, $default = null)
     {
-        if (!isset($this->attributes[$key])) {
-            return $default;
+        if (property_exists($this, $key)) {
+            return $this->{$key};
         }
-        return $this->attributes[$key];
+        return $this->getAttribute($key, $default);
     }
 
     /**
@@ -70,7 +70,7 @@ trait HasAttributesTrait
         if (property_exists($this, $key)) {
             $this->{$key} = $value;
         }
-        $this->attributes[$key] = $value;
+        $this->setAttribute($key, $value);
         return $this;
     }
 

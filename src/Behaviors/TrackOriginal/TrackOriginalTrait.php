@@ -11,6 +11,8 @@ use Nip\Utility\Arr;
  */
 trait TrackOriginalTrait
 {
+    use \ByTIC\DataObjects\Legacy\Behaviors\OldDBDataTrait;
+
     /**
      * The Object original state.
      *
@@ -19,13 +21,28 @@ trait TrackOriginalTrait
     protected $original = [];
 
     /**
+     * @param $data
+     */
+    public function fillOriginal($data)
+    {
+        foreach ($data as $key => $value) {
+            $this->original[$key] = $value;
+        }
+    }
+
+    public function getOriginal(): array
+    {
+        return $this->original;
+    }
+
+    /**
      * Returns the value of an original field by name
      *
      * @param string $field the name of the field for which original value is retrieved.
      * @param null $default
      * @return mixed
      */
-    public function getOriginal(string $field, $default = null)
+    public function getOriginalField(string $field, $default = null)
     {
         if (!strlen($field)) {
             throw new InvalidArgumentException('Cannot get an empty field');
@@ -103,15 +120,17 @@ trait TrackOriginalTrait
     /**
      * Get the attributes that have been changed since last sync.
      *
+     * @param null $fields
      * @return array
      */
-    public function getDirty()
+    public function getDirty($fields = null): array
     {
         $dirty = [];
-
-        foreach ($this->getAttributes() as $key => $value) {
-            if (!$this->originalIsEquivalent($key)) {
-                $dirty[$key] = $value;
+        $fields = is_array($fields) && count($fields) > 0 ? $fields : array_keys($this->getAttributes());
+        foreach ($fields as $field) {
+            $value = $this->getPropertyRaw($field);
+            if (!$this->originalIsEquivalent($field, $value)) {
+                $dirty[$field] = $value;
             }
         }
 
@@ -144,5 +163,26 @@ trait TrackOriginalTrait
         }
 
         return false;
+    }
+
+    /**
+     * @param string $key
+     * @param null $value
+     * @return bool
+     */
+    protected function originalIsEquivalent(string $key, $value = null): bool
+    {
+        if (!array_key_exists($key, $this->original)) {
+            return false;
+        }
+        $attribute = $value ?? $this->getPropertyRaw($key);
+        $original = Arr::get($this->original, $key);
+
+        if ($attribute === $original) {
+            return true;
+        }
+
+        return is_numeric($attribute) && is_numeric($original)
+            && strcmp((string)$attribute, (string)$original) === 0;
     }
 }
