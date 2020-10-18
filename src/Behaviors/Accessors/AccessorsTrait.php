@@ -74,6 +74,7 @@ trait AccessorsTrait
             restore_error_handler();
             return $return;
         } catch (Exception $exception) {
+            restore_error_handler();
             $message = $exception->getMessage();
             if (Str::startsWith($message, 'Undefined property:')
                 && Str::endsWith($message, '::$' . $key)) {
