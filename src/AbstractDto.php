@@ -22,10 +22,10 @@ abstract class AbstractDto implements \ArrayAccess
     public function get($name, $default = null)
     {
         $return = $this->callAccessors('get', $name);
-        if ($return != Constants::NO_ACCESSORS_FOUND) {
-            return $return;
+        if (is_string($return) && $return == Constants::NO_ACCESSORS_FOUND) {
+            return $this->transformValue($name, $this->getPropertyValue($name, $default));
         }
-        return $this->transformValue($name, $this->getPropertyValue($name, $default));
+        return $return;
     }
 
     /**
@@ -36,9 +36,9 @@ abstract class AbstractDto implements \ArrayAccess
     public function set($name, $value)
     {
         $return = $this->callAccessors('set', $name, [$value]);
-        if ($return != Constants::NO_ACCESSORS_FOUND) {
-            return $return;
+        if (is_string($return) && $return == Constants::NO_ACCESSORS_FOUND) {
+            return $this->setPropertyValue($name, $value);
         }
-        return $this->setPropertyValue($name, $value);
+        return $return;
     }
 }
