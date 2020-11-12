@@ -5,6 +5,7 @@ namespace ByTIC\DataObjects\Tests\Behaviors\Accessors;
 use ByTIC\DataObjects\Tests\AbstractTest;
 use ByTIC\DataObjects\Tests\Fixtures\Dto\ObjectWithGetSet;
 use ByTIC\DataObjects\Tests\Fixtures\Models\Books\Book;
+use ByTIC\DataObjects\Utility\Constants;
 
 /**
  * Class AccessorsTraitTest
@@ -46,6 +47,12 @@ class AccessorsTraitTest extends AbstractTest
         $book1->name = 'test';
 
         self::assertSame('Test', $book1->name);
+    }
+
+    public function test_compileMutators()
+    {
+        $book1 = new Book();
+        self::assertSame(Constants::NO_ACCESSORS_FOUND, $book1->getMutated('attribute'));
     }
 
     public function test_setter_magic_property()

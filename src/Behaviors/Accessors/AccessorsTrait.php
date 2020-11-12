@@ -28,8 +28,11 @@ trait AccessorsTrait
      * @return mixed
      * @noinspection PhpDocMissingThrowsInspection
      */
-    public function getMutated($key)
+    public function getMutated(string $key)
     {
+        if (empty($key)) {
+            throw new \InvalidArgumentException("Please provide a key argument");
+        }
         /** @noinspection PhpUnhandledExceptionInspection */
         return $this->callAccessors('get', $key);
     }
@@ -158,6 +161,10 @@ trait AccessorsTrait
             $field = substr($method, 3);
             if (Str::endsWith($field, 'Attribute')) {
                 $field = substr($field, 0, -9);
+            }
+
+            if (empty($field)) {
+                continue;
             }
 
             static::compileAccessorsMethod($class, $prefix, $method, $field);

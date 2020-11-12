@@ -54,6 +54,9 @@ trait HasAttributesTrait
      */
     public function getAttribute(string $key, $default = null)
     {
+        if (empty($key)) {
+            throw new \InvalidArgumentException("Please provide a key argument");
+        }
         if (!isset($this->attributes[$key])) {
             return $default;
         }

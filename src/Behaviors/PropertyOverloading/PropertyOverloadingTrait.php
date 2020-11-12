@@ -58,9 +58,10 @@ trait PropertyOverloadingTrait
     }
 
     /**
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param mixed $value
      * @return mixed
+     * @noinspection PhpUnusedParameterInspection
      */
     protected function transformValue($key, $value)
     {
@@ -99,7 +100,7 @@ trait PropertyOverloadingTrait
 
     /**
      * @param $name
-     * @param null $default
+     * @param $value
      * @return mixed
      */
     protected function setPropertyValue($name, $value)
