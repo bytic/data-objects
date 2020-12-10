@@ -27,8 +27,8 @@ trait TimestampableManagerTrait
      */
     public function usesTimestampsDefault(): bool
     {
-        if (method_exists($this, 'getNew')) {
-            $record = $this->getNew();
+        if (method_exists($this, 'getNewRecord')) {
+            $record = $this->getNewRecord();
 
             if (method_exists($record, 'usesTimestamps')) {
                 return $record->usesTimestamps();
