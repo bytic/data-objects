@@ -12,4 +12,5 @@
 
 
 #### Inspiration
-https://github.com/yiisoft/yii2/blob/master/framework/base/BaseObject.php
+* https://github.com/yiisoft/yii2/blob/master/framework/base/BaseObject.php
+* https://github.com/chillerlan/php-traits

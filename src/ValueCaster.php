@@ -69,6 +69,14 @@ class ValueCaster
 
             case 'timestamp':
                 return static::asTimestamp($value);
+
+
+            case 'object':
+                return static::fromJson($value, true);
+
+            case 'array':
+            case 'json':
+                return static::fromJson($value);
         }
     }
 
@@ -171,5 +179,26 @@ class ValueCaster
         }
 
         return Carbon::parse($value);
+    }
+
+    /**
+     * Decode the given JSON back into an array or object.
+     *
+     * @param string $value
+     * @param bool $asObject
+     * @return mixed
+     */
+    public static function fromJson($value, $asObject = false)
+    {
+        return json_decode($value, !$asObject);
+    }
+
+    /**
+     * @param $value
+     * @return false|string
+     */
+    public static function asJson($value)
+    {
+        return json_encode($value);
     }
 }

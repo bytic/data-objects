@@ -3,6 +3,7 @@
 namespace ByTIC\DataObjects\Tests\Fixtures\Models\Books;
 
 use ByTIC\DataObjects\BaseDto;
+use ByTIC\DataObjects\Behaviors\Timestampable\TimestampableTrait;
 
 /**
  * Class Book
@@ -10,11 +11,13 @@ use ByTIC\DataObjects\BaseDto;
  */
 class Book extends BaseDto
 {
+    use TimestampableTrait;
+
     protected $name;
     protected $title;
 
     protected $casts = [
-        'created' => 'datetime'
+        'published' => 'datetime'
     ];
 
     public static $compiled = 0;

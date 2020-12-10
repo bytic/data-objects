@@ -35,6 +35,57 @@ trait CastableTrait
     }
 
     /**
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function transformInboundValue($key, $value)
+    {
+        if ($value && $this->isDateCastable($key)) {
+            return ValueCaster::asDateTime($value)->format('Y-m-d H:i:s');
+        }
+        return $value;
+    }
+
+    /**
+     * Determine whether an attribute should be cast to a native type.
+     *
+     * @param string $key
+     * @param array|string|null $types
+     * @return bool
+     */
+    public function hasCast($key, $types = null): bool
+    {
+        if (array_key_exists($key, $this->getCasts())) {
+            return $types ? in_array($this->getCastType($key), (array)$types, true) : true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Get the casts array.
+     *
+     * @return array
+     */
+    public function getCasts(): array
+    {
+        return $this->casts;
+    }
+
+    /**
+     * @param $attribute
+     * @param $cast
+     * @return self
+     */
+    public function addCast($attribute, $cast): self
+    {
+        $this->casts[$attribute] = $cast;
+        return $this;
+    }
+
+    /**
      * Cast an attribute to a native PHP type.
      *
      * @param string $key
@@ -89,35 +140,42 @@ trait CastableTrait
      * @param string $cast
      * @return bool
      */
-    protected function isDecimalCast($cast)
+    protected function isDecimalCast($cast): bool
     {
         return strncmp($cast, 'decimal:', 8) === 0;
     }
 
     /**
-     * Determine whether an attribute should be cast to a native type.
+     * Determine whether a value is Date / DateTime castable for inbound manipulation.
      *
      * @param string $key
-     * @param array|string|null $types
      * @return bool
      */
-    public function hasCast($key, $types = null)
+    protected function isDateCastable($key)
     {
-        if (array_key_exists($key, $this->getCasts())) {
-            return $types ? in_array($this->getCastType($key), (array)$types, true) : true;
-        }
-
-        return false;
+        return $this->hasCast($key, ['date', 'datetime']);
     }
 
-
     /**
-     * Get the casts array.
+     * Determine whether a value is JSON castable for inbound manipulation.
      *
-     * @return array
+     * @param string $key
+     * @return bool
      */
-    public function getCasts()
+    protected function isJsonCastable($key)
     {
-        return $this->casts;
+        return $this->hasCast(
+            $key,
+            [
+                'array',
+                'json',
+                'object',
+                'collection',
+                'encrypted:array',
+                'encrypted:collection',
+                'encrypted:json',
+                'encrypted:object'
+            ]
+        );
     }
 }

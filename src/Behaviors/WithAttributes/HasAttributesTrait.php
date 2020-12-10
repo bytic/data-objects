@@ -66,10 +66,14 @@ trait HasAttributesTrait
     /**
      * @param $key
      * @param $value
-     * @return $this
+     * @return static
      */
     public function setPropertyValue($key, $value)
     {
+        if (method_exists($this, 'transformInboundValue')) {
+            $value = $this->transformInboundValue($key, $value);
+        }
+
         if (property_exists($this, $key)) {
             $this->{$key} = $value;
         }

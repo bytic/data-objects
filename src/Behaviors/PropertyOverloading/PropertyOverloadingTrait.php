@@ -105,7 +105,19 @@ trait PropertyOverloadingTrait
      */
     protected function setPropertyValue($name, $value)
     {
+        $value = $this->transformInboundValue($name, $value);
         return $this->{$name} = $value;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return mixed
+     * @noinspection PhpUnusedParameterInspection
+     */
+    protected function transformInboundValue($key, $value)
+    {
+        return $value;
     }
 
     /**
