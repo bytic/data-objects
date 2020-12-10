@@ -46,5 +46,4 @@ class ObjectWithGetSet extends BaseDto
     {
         $this->title = $title;
     }
-
 }
