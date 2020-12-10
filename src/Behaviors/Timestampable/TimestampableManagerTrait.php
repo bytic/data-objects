@@ -11,20 +11,41 @@ use Nip\Records\EventManager\Events\Event;
  */
 trait TimestampableManagerTrait
 {
-    use TimestampableTrait;
+    use TimestampableTrait {
+        usesTimestampsDefault as usesTimestampsDefaultTrait;
+    }
 
     public function bootTimestampableManagerTrait()
     {
-        $this->hookTimestampableIntoLifecycle();
+        if ($this->usesTimestamps()) {
+            $this->hookTimestampableIntoLifecycle();
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function usesTimestampsDefault(): bool
+    {
+        if (method_exists($this, 'getNew')) {
+            $record = $this->getNew();
+
+            if (method_exists($record, 'usesTimestamps')) {
+                return $record->usesTimestamps();
+            }
+        }
+        return $this->usesTimestampsDefaultTrait();
     }
 
     protected function hookTimestampableIntoLifecycle()
     {
         $updateCallback = function ($record, $manager, $type) {
-            if (method_exists($manager, 'getTimestampAttributes')) {
+            if (method_exists($record, 'getTimestampAttributes')) {
+                $attributes = $record->getTimestampAttributes($type);
+            } elseif (method_exists($manager, 'getTimestampAttributes')) {
                 $attributes = $this->getTimestampAttributes($type);
             } else {
-                $attributes = $type;
+                $attributes = [];
             }
 
             /** @var TimestampableTrait $record */

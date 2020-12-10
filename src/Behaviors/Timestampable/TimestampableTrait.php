@@ -11,6 +11,13 @@ use Nip\Utility\Date;
  */
 trait TimestampableTrait
 {
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     * public $timestamps = true;
+     */
+
     protected $timestampableTypes = ['create', 'update'];
 
     /**
@@ -19,6 +26,10 @@ trait TimestampableTrait
      */
     public function updatedTimestamps($attributes)
     {
+        if ($this->usesTimestamps() === false) {
+            return;
+        }
+
         if (is_string($attributes)) {
             if (in_array($attributes, $this->timestampableTypes)) {
                 $attributes = $this->getTimestampAttributes($attributes);
@@ -32,12 +43,47 @@ trait TimestampableTrait
         }
     }
 
-    protected function clearTimestamps()
+    /**
+     * Determine if the model uses timestamps.
+     *
+     * @return bool
+     */
+    public function usesTimestamps(): bool
     {
+        static $timestamps = null;
+        if (is_bool($timestamps)) {
+            return $timestamps;
+        }
+        if (property_exists($this, 'timestamps')) {
+            $timestamps = $this->timestamps;
+            return $timestamps;
+        }
+        if (property_exists($this, 'createTimestamps')) {
+            $timestamps = true;
+            return $timestamps;
+        }
+        if (property_exists($this, 'updateTimestamps')) {
+            $timestamps = true;
+            return $timestamps;
+        }
+
+        $timestamps = $this->usesTimestampsDefault();
+        return $timestamps;
+    }
+
+    /**
+     * @return false
+     */
+    protected function usesTimestampsDefault()
+    {
+        return false;
     }
 
     public function bootTimestampableTrait()
     {
+        if ($this->usesTimestamps() === false) {
+            return;
+        }
         $this->hookCastableTrait();
     }
 
@@ -110,7 +156,7 @@ trait TimestampableTrait
     public function getCreateTimestamps(): array
     {
         if (!isset(static::$createTimestamps)) {
-            return ['created_at'];
+            return $this->timestamps === true ? ['created_at'] : [];
         }
         if (is_string(static::$createTimestamps)) {
             static::$createTimestamps = [static::$createTimestamps];
@@ -126,7 +172,7 @@ trait TimestampableTrait
     public function getUpdateTimestamps(): array
     {
         if (!isset(static::$createTimestamps)) {
-            return ['updated_at'];
+            return $this->timestamps === true ? ['updated_at'] : [];
         }
         if (is_string(static::$updateTimestamps)) {
             static::$updateTimestamps = [static::$updateTimestamps];

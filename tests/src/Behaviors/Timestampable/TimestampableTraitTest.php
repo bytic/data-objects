@@ -4,6 +4,7 @@ namespace ByTIC\DataObjects\Tests\Behaviors\Timestampable;
 
 use ByTIC\DataObjects\Tests\AbstractTest;
 use ByTIC\DataObjects\Tests\Fixtures\Dto\Timestampable;
+use ByTIC\DataObjects\Tests\Fixtures\Dto\TimestampableNoProperties;
 use ByTIC\DataObjects\Tests\Fixtures\Models\Books\Book;
 use Nip\Utility\Date;
 
@@ -72,6 +73,17 @@ class TimestampableTraitTest extends AbstractTest
         $dateGet = $book->created_at;
         self::assertInstanceOf(\DateTime::class, $dateGet);
         self::assertSame($date1->toDateTimeString(), $dateGet->toDateTimeString());
+    }
+
+    public function test_usesTimestamps_called_once()
+    {
+        $book = \Mockery::mock(TimestampableNoProperties::class)->shouldAllowMockingProtectedMethods()->makePartial();
+        $book->shouldReceive('usesTimestampsDefault')->once()->andReturn(true);
+
+        $book->usesTimestamps();
+        $book->usesTimestamps();
+        $book->usesTimestamps();
+        self::assertTrue($book->usesTimestamps());
     }
 
     public function test_updatedTimestamps()

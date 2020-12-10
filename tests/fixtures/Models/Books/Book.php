@@ -12,6 +12,7 @@ use ByTIC\DataObjects\Behaviors\Timestampable\TimestampableTrait;
 class Book extends BaseDto
 {
     use TimestampableTrait;
+    public $timestamps = true;
 
     protected $name;
     protected $title;

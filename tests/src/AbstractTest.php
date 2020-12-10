@@ -11,9 +11,5 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractTest extends TestCase
 {
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        m::close();
-    }
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 }
