@@ -101,6 +101,53 @@ trait PropertyOverloadingTrait
     /**
      * @param $name
      * @param $value
+     * @param $condition
+     * @return mixed|void
+     */
+    public function setIf($name, $value, $condition)
+    {
+        $condition = is_callable($condition) ? $condition() : $condition;
+        if ($condition !== true) {
+            return;
+        }
+        return $this->setPropertyValue($name, $value);
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     * @return mixed|void
+     */
+    public function setIfNull($name, $value)
+    {
+        return $this->setIf(
+            $name,
+            $value,
+            function () use ($name) {
+                return !$this->has($name) || $this->get($name) == null;
+            }
+        );
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     * @return mixed|void
+     */
+    public function setIfEmpty($name, $value)
+    {
+        return $this->setIf(
+            $name,
+            $value,
+            function () use ($name) {
+                return !$this->has($name) || empty($this->get($name));
+            }
+        );
+    }
+
+    /**
+     * @param $name
+     * @param $value
      * @return mixed
      */
     protected function setPropertyValue($name, $value)
