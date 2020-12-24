@@ -1,15 +1,15 @@
 <?php
 
-namespace ByTIC\DataObjects\Tests\Fixtures\Dto;
+namespace ByTIC\DataObjects\Tests\Fixtures\Dto\Timestampable;
 
 use ByTIC\DataObjects\BaseDto;
 use ByTIC\DataObjects\Behaviors\Timestampable\TimestampableTrait;
 
 /**
- * Class Timestampable
- * @package ByTIC\DataObjects\Tests\Fixtures\Dto
+ * Class CustomTimestampable
+ * @package ByTIC\DataObjects\Tests\Fixtures\Dto\Timestampable
  */
-class Timestampable extends BaseDto
+class CustomTimestampable extends BaseDto
 {
     use TimestampableTrait;
 

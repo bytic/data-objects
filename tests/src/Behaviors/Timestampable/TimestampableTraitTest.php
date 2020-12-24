@@ -3,9 +3,11 @@
 namespace ByTIC\DataObjects\Tests\Behaviors\Timestampable;
 
 use ByTIC\DataObjects\Tests\AbstractTest;
-use ByTIC\DataObjects\Tests\Fixtures\Dto\Timestampable;
-use ByTIC\DataObjects\Tests\Fixtures\Dto\TimestampableNoProperties;
+use ByTIC\DataObjects\Tests\Fixtures\Dto\Timestampable\CreateTimestamps;
+use ByTIC\DataObjects\Tests\Fixtures\Dto\Timestampable\CustomTimestampable;
+use ByTIC\DataObjects\Tests\Fixtures\Dto\Timestampable\NoProperties;
 use ByTIC\DataObjects\Tests\Fixtures\Models\Books\Book;
+use Mockery\Mock;
 use Nip\Utility\Date;
 
 /**
@@ -16,7 +18,7 @@ class TimestampableTraitTest extends AbstractTest
 {
     public function test_getTimestampsAttributes()
     {
-        $object = new Timestampable();
+        $object = new CustomTimestampable();
 
         self::assertSame(['created'], $object->getCreateTimestamps());
         self::assertSame(['modified'], $object->getUpdateTimestamps());
@@ -28,7 +30,7 @@ class TimestampableTraitTest extends AbstractTest
 
     public function test_setModelTimeAttribute()
     {
-        $object = new Timestampable();
+        $object = new CustomTimestampable();
 
         $now = Date::now();
         $object->setModelTimeAttribute('created', null);
@@ -77,7 +79,8 @@ class TimestampableTraitTest extends AbstractTest
 
     public function test_usesTimestamps_called_once()
     {
-        $book = \Mockery::mock(TimestampableNoProperties::class)->shouldAllowMockingProtectedMethods()->makePartial();
+        /** @var Mock|NoProperties $book */
+        $book = \Mockery::mock(NoProperties::class)->shouldAllowMockingProtectedMethods()->makePartial();
         $book->shouldReceive('usesTimestampsDefault')->once()->andReturn(true);
 
         $book->usesTimestamps();
@@ -108,5 +111,18 @@ class TimestampableTraitTest extends AbstractTest
         $dateGet = $book->updated_at;
         self::assertInstanceOf(\DateTime::class, $dateGet);
         self::assertSame($date1->toDateTimeString(), $dateGet->toDateTimeString());
+    }
+
+    public function test_createTimestamps()
+    {
+        $object = new CreateTimestamps();
+
+        self::assertSame(['created'], $object->getCreateTimestamps());
+        self::assertSame([], $object->getUpdateTimestamps());
+        self::assertSame([], $object->getTimestampAttributes(''));
+        self::assertSame([], $object->getTimestampAttributes('test'));
+        self::assertSame(['created'], $object->getTimestampAttributes('create'));
+        self::assertSame([], $object->getTimestampAttributes('update'));
+
     }
 }

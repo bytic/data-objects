@@ -171,7 +171,7 @@ trait TimestampableTrait
      */
     public function getUpdateTimestamps(): array
     {
-        if (!isset(static::$createTimestamps)) {
+        if (!isset(static::$updateTimestamps)) {
             return $this->timestamps === true ? ['updated_at'] : [];
         }
         if (is_string(static::$updateTimestamps)) {

@@ -68,7 +68,6 @@
       <path value="$PROJECT_DIR$/vendor/mockery/mockery" />
       <path value="$PROJECT_DIR$/vendor/psr/container" />
       <path value="$PROJECT_DIR$/vendor/brick/math" />
-      <path value="$PROJECT_DIR$/vendor/bytic/inflector" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php73" />
       <path value="$PROJECT_DIR$/vendor/psr/log" />
       <path value="$PROJECT_DIR$/vendor/php-cs-fixer/diff" />
@@ -102,14 +101,12 @@
       <path value="$PROJECT_DIR$/vendor/bytic/profiler" />
       <path value="$PROJECT_DIR$/vendor/bytic/orm" />
       <path value="$PROJECT_DIR$/vendor/bytic/filesystem" />
-      <path value="$PROJECT_DIR$/vendor/bytic/database" />
       <path value="$PROJECT_DIR$/vendor/bytic/flash" />
       <path value="$PROJECT_DIR$/vendor/bytic/collections" />
       <path value="$PROJECT_DIR$/vendor/bytic/google-analytics" />
       <path value="$PROJECT_DIR$/vendor/bytic/http" />
       <path value="$PROJECT_DIR$/vendor/bytic/pipeline" />
       <path value="$PROJECT_DIR$/vendor/bytic/request-detective" />
-      <path value="$PROJECT_DIR$/vendor/bytic/router" />
       <path value="$PROJECT_DIR$/vendor/bytic/assets" />
       <path value="$PROJECT_DIR$/vendor/bytic/container" />
       <path value="$PROJECT_DIR$/vendor/bytic/cache" />
@@ -132,6 +129,9 @@
       <path value="$PROJECT_DIR$/vendor/league/flysystem" />
       <path value="$PROJECT_DIR$/vendor/league/container" />
       <path value="$PROJECT_DIR$/vendor/symfony/cache" />
+      <path value="$PROJECT_DIR$/vendor/bytic/inflector" />
+      <path value="$PROJECT_DIR$/vendor/bytic/router" />
+      <path value="$PROJECT_DIR$/vendor/bytic/database" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1">
