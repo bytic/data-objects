@@ -128,6 +128,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/inflector" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/router" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/database" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/league/flysystem-cached-adapter" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
