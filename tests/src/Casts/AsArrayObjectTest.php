@@ -34,6 +34,52 @@ class AsArrayObjectTest extends AbstractTest
             $book->getAttribute('properties')
         );
     }
+    public function test_cast_null()
+    {
+        $book = new Book();
+        $book->fill(
+            [
+                'properties' => null
+            ]
+        );
+
+        /** @var \ArrayObject $propertiesValue */
+        $propertiesValue = $book->get('properties');
+        self::assertInstanceOf(\ArrayObject::class, $propertiesValue);
+        self::assertArrayNotHasKey('option1', $propertiesValue, 1);
+        self::assertSame(null, $book->getAttribute('properties'));
+
+        $propertiesValue['options3'] = 'value3';
+        $book->set('properties', $propertiesValue);
+
+        self::assertSame(
+            'a:1:{s:8:"options3";s:6:"value3";}',
+            $book->getAttribute('properties')
+        );
+    }
+    public function test_cast_string()
+    {
+        $book = new Book();
+        $book->fill(
+            [
+                'properties' => 'N;'
+            ]
+        );
+
+        /** @var \ArrayObject $propertiesValue */
+        $propertiesValue = $book->get('properties');
+        self::assertInstanceOf(\ArrayObject::class, $propertiesValue);
+        self::assertArrayNotHasKey('option1', $propertiesValue, 1);
+        self::assertSame('N;', $book->getAttribute('properties'));
+
+        $propertiesValue['options3'] = 'value3';
+        $book->set('properties', $propertiesValue);
+
+        self::assertSame(
+            'a:1:{s:8:"options3";s:6:"value3";}',
+            $book->getAttribute('properties')
+        );
+    }
 
     public function test_cast_invalid()
     {

@@ -137,7 +137,7 @@ trait CastableTrait
             $key,
             $caster->set($this, $key, $value, $this->attributes)
         );
-
+        $return = null;
         if (isset($responseValues[$key])) {
             $return = $responseValues[$key];
             unset($responseValues[$key]);

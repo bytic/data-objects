@@ -40,6 +40,9 @@ class AsArrayObject implements Castable
                 } else {
                     $value = $this->decode($value);
                 }
+                if ($value === null) {
+                    $value = [];
+                }
                 return new ArrayObject($value);
             }
 
