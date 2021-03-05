@@ -21,6 +21,13 @@ trait CastableTrait
     protected $casts = [];
 
     /**
+     * The attributes casted values
+     *
+     * @var array
+     */
+    protected $castsValueCache = [];
+
+    /**
      * The attributes that have been cast using custom classes.
      *
      * @var array
@@ -34,12 +41,17 @@ trait CastableTrait
      */
     public function transformValue($key, $value)
     {
+        if (isset($this->castsValueCache[$key]) && $value != null) {
+            return $this->castsValueCache[$key];
+        }
+
         // If the attribute exists within the cast array, we will convert it to
         // an appropriate native PHP type dependent upon the associated value
         // given with the key in the pair. Dayle made this comment line up.
         if ($this->hasCast($key)) {
-            return $this->castValue($key, $value);
+            $value = $this->castValue($key, $value);
         }
+        $this->castsValueCache[$key] = $value;
 
         return $value;
     }
@@ -51,6 +63,8 @@ trait CastableTrait
      */
     public function transformInboundValue($key, $value)
     {
+        unset($this->castsValueCache[$key]);
+
         if ($value && $this->isDateCastable($key)) {
             return ValueCaster::asDateTime($value)->format('Y-m-d H:i:s');
         }
