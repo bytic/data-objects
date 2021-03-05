@@ -11,29 +11,34 @@ use ByTIC\DataObjects\Tests\Fixtures\Models\Books\Book;
  */
 class AsArrayObjectTest extends AbstractTest
 {
-    public function test_cast_empty()
+    /**
+     * @dataProvider data_cast_values
+     */
+    public function test_cast_values($string, $return)
     {
         $book = new Book();
-        $book->fill(
-            [
-                'properties' => ''
-            ]
-        );
+        $book->fill(['properties' => $string]);
 
         /** @var \ArrayObject $propertiesValue */
         $propertiesValue = $book->get('properties');
         self::assertInstanceOf(\ArrayObject::class, $propertiesValue);
-        self::assertArrayNotHasKey('option1', $propertiesValue, 1);
-        self::assertSame('', $book->getAttribute('properties'));
 
-        $propertiesValue['options3'] = 'value3';
-        $book->set('properties', $propertiesValue);
-
-        self::assertSame(
-            'a:1:{s:8:"options3";s:6:"value3";}',
-            $book->getAttribute('properties')
-        );
+        self::assertSame($return, $propertiesValue->getArrayCopy());
     }
+
+    public function data_cast_values()
+    {
+        return [
+            [null, []],
+            ['', []],
+            ['N;', []],
+            ['a:0:{}', []],
+            ['b:0;', []],
+            ['a:1:{s:8:"currency";s:3:"RON";}', ['currency' => 'RON']],
+            [serialize(['test' => 1]), ['test' => 1]],
+        ];
+    }
+
     public function test_cast_null()
     {
         $book = new Book();
@@ -57,6 +62,7 @@ class AsArrayObjectTest extends AbstractTest
             $book->getAttribute('properties')
         );
     }
+
     public function test_cast_string()
     {
         $book = new Book();
