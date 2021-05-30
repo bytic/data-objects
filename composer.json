@@ -25,7 +25,7 @@
     "require": {
         "php": "^7.2|^8.0",
         "bytic/inflector": "^1.0",
-        "bytic/utility": "^1.0",
+        "bytic/utility": "^1.0.42",
         "ext-json": "*"
     },
     "require-dev": {
