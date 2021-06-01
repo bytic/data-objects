@@ -4,6 +4,7 @@ namespace ByTIC\DataObjects;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
+use DateTime;
 use DateTimeInterface;
 
 /**
@@ -145,15 +146,22 @@ class ValueCaster
      */
     public static function asDate($value)
     {
-        return Carbon::parse($value);
+        $date = static::asDateTime($value);
+        if ($date === null) {
+            return null;
+        }
+        return $date->startOfDay();
     }
 
     /**
      * @param $value
-     * @return mixed
+     * @return ?DateTime
      */
-    public static function asDateTime($value)
+    public static function asDateTime($value): ?DateTime
     {
+        if (empty($value)) {
+            return null;
+        }
         // If this value is already a Carbon instance, we shall just return it as is.
         // This prevents us having to re-instantiate a Carbon instance when we know
         // it already is one, which wouldn't be fulfilled by the DateTime check.
@@ -178,7 +186,12 @@ class ValueCaster
             return Carbon::createFromTimestamp($value);
         }
 
-        return Carbon::parse($value);
+        $date = Carbon::parse($value);
+        if ($date->year < 1) {
+            return null;
+        }
+
+        return $date;
     }
 
     /**
