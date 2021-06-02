@@ -66,7 +66,8 @@ trait CastableTrait
         unset($this->castsValueCache[$key]);
 
         if ($value && $this->isDateCastable($key)) {
-            return ValueCaster::asDateTime($value)->format('Y-m-d H:i:s');
+            $value = ValueCaster::asDateTime($value);
+            return $value instanceof \DateTime ? $value->format('Y-m-d H:i:s') : null;
         }
         if ($this->isClassCastable($key)) {
             return $this->transformClassCastableAttribute($key, $value);

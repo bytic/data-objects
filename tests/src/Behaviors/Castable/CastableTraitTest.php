@@ -27,6 +27,13 @@ class CastableTraitTest extends AbstractTest
     public function test_transformInboundValue_Datetime()
     {
         $book = new Book();
+
+        $book->published = null;
+        self::assertNull($book->published);
+
+        $book->published = '0000-00-00 00:00:00';
+        self::assertNull($book->published);
+
         $date = date('Y-m-d');
         $book->published = $date;
 
