@@ -20,18 +20,22 @@ class AsMetadataObject implements Castable
      */
     public static function castUsing(array $arguments)
     {
-        $encoder = isset($arguments[0]) ? $arguments[0] : null;
-        return new class($encoder) implements CastsAttributes {
+        $encoder = $arguments[0] ?? null;
+        $metadataClass = $arguments[1] ?? Metadata::class;
+
+        return new class($encoder, $metadataClass) implements CastsAttributes {
 
             protected $encoder = 'json';
+            protected $metadataClass = Metadata::class;
 
             /**
              *  constructor.
              * @param $encoder
              */
-            public function __construct($encoder)
+            public function __construct($encoder, $metadataClass)
             {
                 $this->encoder = $encoder;
+                $this->metadataClass = $metadataClass;
             }
 
             /**
@@ -47,11 +51,12 @@ class AsMetadataObject implements Castable
                 if (!is_array($value)) {
                     $value = [];
                 }
-                return (new Metadata($value))->setObserver(
-                    function (Metadata $metadata) use ($model, $key) {
-                        $model->set($key, $metadata);
-                    }
-                );
+                return (new $this->metadataClass($value))
+                    ->setObserver(
+                        function (Metadata $metadata) use ($model, $key) {
+                            $model->set($key, $metadata);
+                        }
+                    );
             }
 
             /**

@@ -5,6 +5,7 @@ namespace ByTIC\DataObjects\Tests\Casts;
 use ByTIC\DataObjects\Casts\Metadata\Metadata;
 use ByTIC\DataObjects\Tests\AbstractTest;
 use ByTIC\DataObjects\Tests\Fixtures\Models\Books\Book;
+use ByTIC\DataObjects\Tests\Fixtures\Models\Books\BookOptions;
 
 /**
  * Class SerializedCollectionTest
@@ -99,6 +100,14 @@ class AsMetadataObjectTest extends AbstractTest
         );
         $this->expectException(\InvalidArgumentException::class);
         $book->get('metadata');
+    }
+
+    public function test_cast_with_custom_class()
+    {
+        $book = new Book();
+ ;
+        $options = $book->get('options');
+        self::assertInstanceOf(BookOptions::class, $options);
     }
 
     public function test_cast()

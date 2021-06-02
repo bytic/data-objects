@@ -23,6 +23,7 @@ class Book extends BaseDto
     protected $casts = [
         'published' => 'datetime',
         'metadata' => AsMetadataObject::class . ':json',
+        'options' => AsMetadataObject::class . ':json,' . BookOptions::class,
         'properties' => AsArrayObject::class . ':serialize',
     ];
 
