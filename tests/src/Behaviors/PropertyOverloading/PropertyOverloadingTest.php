@@ -68,4 +68,15 @@ class PropertyOverloadingTest extends AbstractTest
         self::assertSame(123, $object->get('dnx3'));
         self::assertSame(456, $object->get('exist'));
     }
+
+    public function test_incrementProperty()
+    {
+        $object = new BaseDto(['field' => '']);
+        $object->incrementProperty('field', 1);
+        self::assertEquals(1, $object->getPropertyRaw('field'));
+
+        $object = new BaseDto(['field' => '4']);
+        $object->incrementProperty('field', 1);
+        self::assertEquals(5, $object->getPropertyRaw('field'));
+    }
 }

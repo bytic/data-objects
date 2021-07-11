@@ -276,4 +276,42 @@ trait PropertyOverloadingTrait
     {
         return !$this->isEmpty($field);
     }
+
+    /**
+     * @param $name
+     * @param $value
+     */
+    public function incrementProperty($name, $value)
+    {
+        $value = $this->getPropertyFloatWithCheck($name) + $value;
+        $this->setPropertyValue($name, $value);
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     */
+    public function decrementProperty($name, $value)
+    {
+        $value = $this->getPropertyFloatWithCheck($name) - $value;
+        $this->setPropertyValue($name, $value);
+    }
+
+    /**
+     * @param $name
+     * @return float|int
+     * @throws \Exception
+     */
+    protected function getPropertyFloatWithCheck($name)
+    {
+        $value = $this->getPropertyRaw($name);
+        if (in_array($value, [null, '', '0'])) {
+            return 0;
+        }
+        $float = floatval($value);
+        if ($float == $value) {
+            return $float;
+        }
+        throw new \Exception("Invalid parameter value is not float");
+    }
 }
