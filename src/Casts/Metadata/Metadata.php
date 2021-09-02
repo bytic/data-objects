@@ -100,6 +100,7 @@ class Metadata extends BaseArrayObject implements JsonSerializable, Serializable
 
         if (strpos($name, '.') === false) {
             $this[$name] = $value;
+            $this->callObserver();
             return $this;
         }
         $parts = explode('.', $name);
