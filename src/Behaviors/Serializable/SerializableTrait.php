@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Behaviors\Serializable;
 
 /**
@@ -24,22 +26,38 @@ trait SerializableTrait
      */
     protected static $serializer;
 
-    /**
-     * @return string
-     */
-    public function serialize(): string
+    public function __serialize(): array
     {
         $properties = $this->__sleep();
         $data = [];
         foreach ($properties as $property) {
             $data[$property] = $this->{$property};
         }
-        return serialize($data);
+        return $data;
     }
 
+    /**
+     * @internal
+     */
+    public function serialize(): string
+    {
+        return serialize($this->__serialize());
+    }
+
+    /**
+     * @param callable $callback
+     * @return void
+     */
     public static function serializeUsing($callback)
     {
         static::$serializer = $callback;
+    }
+
+    public function __unserialize(array $data): void
+    {
+        foreach ($data as $property => $value) {
+            $this->{$property} = $value;
+        }
     }
 
     /**
@@ -51,9 +69,8 @@ trait SerializableTrait
         if (!is_array($data)) {
             return;
         }
-        foreach ($data as $property => $value) {
-            $this->{$property} = $value;
-        }
+
+        $this->__unserialize($data);
     }
 
     /**

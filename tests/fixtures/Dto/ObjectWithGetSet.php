@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Tests\Fixtures\Dto;
 
 use ByTIC\DataObjects\BaseDto;
@@ -13,6 +15,7 @@ use ByTIC\DataObjects\BaseDto;
 class ObjectWithGetSet extends BaseDto
 {
     protected $title;
+    protected $name;
 
     /**
      * @return mixed
