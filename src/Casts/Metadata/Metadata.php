@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Casts\Metadata;
 
 use ArrayObject as BaseArrayObject;
+use ByTIC\DataObjects\Behaviors\Serializable\SerializableTrait;
 use JsonSerializable;
 use Serializable;
 
@@ -12,6 +15,8 @@ use Serializable;
  */
 class Metadata extends BaseArrayObject implements JsonSerializable, Serializable
 {
+    use SerializableTrait;
+
     /**
      * @var null|callable
      */
@@ -141,26 +146,9 @@ class Metadata extends BaseArrayObject implements JsonSerializable, Serializable
     /**
      * @inheritDoc
      */
-    public function serialize()
+    public function __sleep()
     {
-        return serialize($this->toArray());
-    }
-
-    /**
-     * Constructs the object.
-     * @link https://php.net/manual/en/serializable.unserialize.php
-     * @param string $serialized The string representation of the object.
-     * @return void
-     */
-    public function unserialize($data)
-    {
-        $data = @unserialize($data);
-        if (!is_array($data)) {
-            return;
-        }
-        foreach ($data as $property => $value) {
-            $this[$property] = $value;
-        }
+        return array_keys($this->getArrayCopy());
     }
 
     /**
@@ -168,7 +156,7 @@ class Metadata extends BaseArrayObject implements JsonSerializable, Serializable
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->getArrayCopy();
     }
@@ -176,7 +164,7 @@ class Metadata extends BaseArrayObject implements JsonSerializable, Serializable
     /**
      * @inheritDoc
      */
-    public function offsetSet($key, $value)
+    public function offsetSet(mixed $key, mixed $value): void
     {
         parent::offsetSet($key, $value);
         $this->callObserver();

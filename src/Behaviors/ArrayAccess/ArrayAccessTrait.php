@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Behaviors\ArrayAccess;
 
 /**
@@ -25,7 +27,7 @@ trait ArrayAccessTrait
      * @param mixed $offset
      * @return mixed
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         if (!$this->offsetExists($offset)) {
             return null;
@@ -40,7 +42,7 @@ trait ArrayAccessTrait
      * @param mixed $value
      * @return void
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset,mixed $value): void
     {
         $this->{$offset} = $value;
     }
@@ -51,7 +53,7 @@ trait ArrayAccessTrait
      * @param mixed $offset
      * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->{$offset});
     }

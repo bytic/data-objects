@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Casts;
 
 /**
@@ -16,7 +18,7 @@ class AsArrayObject implements Castable
      */
     public static function castUsing(array $arguments)
     {
-        $encoder = isset($arguments[0]) ? $arguments[0] : null;
+        $encoder = $arguments[0] ?? null;
         return new class($encoder) implements CastsAttributes {
 
             protected $encoder = 'json';
@@ -75,6 +77,7 @@ class AsArrayObject implements Castable
             protected function encode($value)
             {
                 if ($this->encoder == 'serialize') {
+                    var_dump($value->__sleep());
                     return $value instanceof ArrayObject ? $value->serialize() : serialize($value);
                 }
                 return json_encode($value);

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ByTIC\DataObjects\Behaviors\Serializable;
 
+use ArrayAccess;
+
 /**
  * Trait Serializable
  * @package ByTIC\DataObjects\Behaviors\Serializable
@@ -31,7 +33,11 @@ trait SerializableTrait
         $properties = $this->__sleep();
         $data = [];
         foreach ($properties as $property) {
-            $data[$property] = $this->{$property};
+            if ($this instanceof ArrayAccess) {
+                $data[$property] = $this[$property];
+            } else {
+                $data[$property] = $this->{$property};
+            }
         }
         return $data;
     }
@@ -56,14 +62,18 @@ trait SerializableTrait
     public function __unserialize(array $data): void
     {
         foreach ($data as $property => $value) {
-            $this->{$property} = $value;
+            if ($this instanceof ArrayAccess) {
+                $this[$property] = $value;
+            }  else {
+                $this->{$property} = $value;
+            }
         }
     }
 
     /**
      * @param $data
      */
-    public function unserialize($data)
+    public function unserialize(string $data): void
     {
         $data = @unserialize($data);
         if (!is_array($data)) {
