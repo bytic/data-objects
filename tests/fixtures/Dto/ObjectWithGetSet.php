@@ -16,6 +16,7 @@ class ObjectWithGetSet extends BaseDto
 {
     protected $title;
     protected $name;
+    protected ?int $value_id = null;
 
     /**
      * @return mixed
@@ -56,5 +57,21 @@ class ObjectWithGetSet extends BaseDto
     public function setTitle($title): void
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getValueId(): ?int
+    {
+        return $this->value_id;
+    }
+
+    /**
+     * @param int|null $pool_id
+     */
+    public function setValueId(?int $pool_id): void
+    {
+        $this->value_id = $pool_id;
     }
 }

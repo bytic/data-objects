@@ -47,6 +47,15 @@ class AccessorsTraitTest extends AbstractTest
         self::assertSame('test', $object->get('options'));
     }
 
+    public function test_setter_private_property()
+    {
+        $object = new ObjectWithGetSet(['name' => 'test', 'value_id' => '1']);
+
+        self::assertSame('test', $object->getName());
+        self::assertSame(1, $object->getValueId());
+
+    }
+
     public function test_callAccessors_setter()
     {
         $book1 = new Book();

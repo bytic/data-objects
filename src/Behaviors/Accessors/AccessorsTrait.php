@@ -1,6 +1,7 @@
 <?php
-
-declare(strict_types=1);
+/** @noinspection PhpMissingStrictTypesDeclarationInspection
+ * Do not put strict types to allow for type casting on setter and getter
+ */
 
 namespace ByTIC\DataObjects\Behaviors\Accessors;
 
