@@ -77,7 +77,6 @@ class AsArrayObject implements Castable
             protected function encode($value)
             {
                 if ($this->encoder == 'serialize') {
-                    var_dump($value->__sleep());
                     return $value instanceof ArrayObject ? $value->serialize() : serialize($value);
                 }
                 return json_encode($value);

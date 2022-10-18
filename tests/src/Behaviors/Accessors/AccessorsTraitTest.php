@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Tests\Behaviors\Accessors;
 
 use ByTIC\DataObjects\Tests\AbstractTest;
@@ -34,11 +36,15 @@ class AccessorsTraitTest extends AbstractTest
 
     public function test_getter_magic_property()
     {
-        $object = new ObjectWithGetSet(['name' => 'test']);
+        $object = new ObjectWithGetSet(['name' => 'test', 'options' => 'test']);
 
         self::assertSame('test', $object->name);
         self::assertSame('test', $object->getName());
         self::assertSame('test', $object->get('name'));
+
+        self::assertSame('test', $object->options);
+        self::assertSame('test', $object->getOptions());
+        self::assertSame('test', $object->get('options'));
     }
 
     public function test_callAccessors_setter()

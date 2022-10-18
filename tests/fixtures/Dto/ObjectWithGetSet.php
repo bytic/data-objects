@@ -37,6 +37,14 @@ class ObjectWithGetSet extends BaseDto
     /**
      * @return mixed
      */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getTitle()
     {
         return $this->title;

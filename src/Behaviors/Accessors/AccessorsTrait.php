@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Behaviors\Accessors;
 
 use ByTIC\DataObjects\Utility\Constants;
@@ -18,7 +20,7 @@ trait AccessorsTrait
      *
      * @var array
      */
-    protected static $accessors = [
+    protected static array $accessors = [
         'get' => [],
         'set' => [],
     ];
@@ -71,7 +73,7 @@ trait AccessorsTrait
                 function ($errno, $errstr, $errfile, $errline) use ($type, $key) {
                     throw new Exception($errstr, $errno);
                 },
-                E_NOTICE
+                E_NOTICE | E_WARNING
             );
             $return = $this->{$method}(...$params);
             restore_error_handler();
