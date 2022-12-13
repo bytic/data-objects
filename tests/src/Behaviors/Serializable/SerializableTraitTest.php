@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Tests\Behaviors\Serializable;
 
 use ByTIC\DataObjects\Tests\AbstractTest;
 use ByTIC\DataObjects\Tests\Fixtures\Dto\Serializable;
 
 /**
- * Class SerializableTraitTest
- * @package ByTIC\DataObjects\Tests\Behaviors\Serializable
+ * Class SerializableTraitTest.
  */
 class SerializableTraitTest extends AbstractTest
 {
-    public function test_serialize()
+    public function testSerialize()
     {
         $object = new Serializable();
         $object->set('test', 'value');

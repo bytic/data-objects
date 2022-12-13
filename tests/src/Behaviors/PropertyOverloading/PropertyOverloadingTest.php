@@ -1,28 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Tests\Behaviors\PropertyOverloading;
 
 use ByTIC\DataObjects\BaseDto;
 use ByTIC\DataObjects\Tests\AbstractTest;
 
 /**
- * Class PropertyOverloadingTest
- * @package ByTIC\DataObjects\Tests\Behaviors\PropertyOverloading
+ * Class PropertyOverloadingTest.
  */
 class PropertyOverloadingTest extends AbstractTest
 {
-    public function test_fill()
+    public function testFill()
     {
         $object = new BaseDto();
         $object->fill(['test1' => 'value1']);
         self::assertSame('value1', $object->test1);
 
-        $object->fill(['test1' => 'value11','test2' => 'value2']);
+        $object->fill(['test1' => 'value11', 'test2' => 'value2']);
         self::assertSame('value11', $object->test1);
         self::assertSame('value2', $object->test2);
     }
 
-    public function test_setIf()
+    public function testSetIf()
     {
         $object = new BaseDto();
         $object->exist = 456;
@@ -32,11 +33,11 @@ class PropertyOverloadingTest extends AbstractTest
         $object->setIf('exist', 123, false);
 
         self::assertSame(123, $object->get('dnx1'));
-        self::assertSame(null, $object->get('dnx2'));
+        self::assertNull($object->get('dnx2'));
         self::assertSame(456, $object->get('exist'));
     }
 
-    public function test_setIfNull()
+    public function testSetIfNull()
     {
         $object = new BaseDto();
         $object->exist = 456;
@@ -50,7 +51,7 @@ class PropertyOverloadingTest extends AbstractTest
         self::assertSame(456, $object->get('exist'));
     }
 
-    public function test_setIfEmpty()
+    public function testSetIfEmpty()
     {
         $object = new BaseDto();
         $object->exist = 456;
@@ -69,7 +70,7 @@ class PropertyOverloadingTest extends AbstractTest
         self::assertSame(456, $object->get('exist'));
     }
 
-    public function test_incrementProperty()
+    public function testIncrementProperty()
     {
         $object = new BaseDto(['field' => '']);
         $object->incrementProperty('field', 1);

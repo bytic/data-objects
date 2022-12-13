@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Tests\Fixtures\Dto\Timestampable;
 
 use ByTIC\DataObjects\BaseDto;
 use ByTIC\DataObjects\Behaviors\Timestampable\TimestampableTrait;
 
 /**
- * Class CreateTimestamps
- * @package ByTIC\DataObjects\Tests\Fixtures\Dto\Timestampable
+ * Class CreateTimestamps.
  */
 class CreateTimestamps extends BaseDto
 {
@@ -16,5 +17,5 @@ class CreateTimestamps extends BaseDto
     /**
      * @var string
      */
-    static protected $createTimestamps = ['created'];
+    protected static $createTimestamps = ['created'];
 }

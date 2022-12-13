@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace ByTIC\DataObjects\Behaviors\Serializable;
 
-use ArrayAccess;
-
 /**
- * Trait Serializable
- * @package ByTIC\DataObjects\Behaviors\Serializable
+ * Trait Serializable.
  *
  * @property array $serializable
  */
@@ -19,7 +16,6 @@ trait SerializableTrait
      *
      *  protected $serializable = [];
      */
-
 
     /**
      * The custom Carbon JSON serializer.
@@ -33,12 +29,13 @@ trait SerializableTrait
         $properties = $this->__sleep();
         $data = [];
         foreach ($properties as $property) {
-            if ($this instanceof ArrayAccess) {
+            if ($this instanceof \ArrayAccess) {
                 $data[$property] = $this[$property];
             } else {
                 $data[$property] = $this->{$property};
             }
         }
+
         return $data;
     }
 
@@ -52,6 +49,7 @@ trait SerializableTrait
 
     /**
      * @param callable $callback
+     *
      * @return void
      */
     public static function serializeUsing($callback)
@@ -62,21 +60,18 @@ trait SerializableTrait
     public function __unserialize(array $data): void
     {
         foreach ($data as $property => $value) {
-            if ($this instanceof ArrayAccess) {
+            if ($this instanceof \ArrayAccess) {
                 $this[$property] = $value;
-            }  else {
+            } else {
                 $this->{$property} = $value;
             }
         }
     }
 
-    /**
-     * @param $data
-     */
     public function unserialize(string $data): void
     {
         $data = @unserialize($data);
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             return;
         }
 

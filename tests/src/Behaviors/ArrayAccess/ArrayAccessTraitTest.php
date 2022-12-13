@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Tests\Behaviors\ArrayAccess;
 
 use ByTIC\DataObjects\BaseDto;
 use ByTIC\DataObjects\Tests\AbstractTest;
 
 /**
- * Class ArrayAccessTraitTest
- * @package ByTIC\DataObjects\Tests\Behaviors\ArrayAccess
+ * Class ArrayAccessTraitTest.
  */
 class ArrayAccessTraitTest extends AbstractTest
 {
-    public function test_offsetExists()
+    public function testOffsetExists()
     {
         $object = new BaseDto();
         $object->test = 'true';
@@ -20,7 +21,7 @@ class ArrayAccessTraitTest extends AbstractTest
         self::assertFalse($object->offsetExists('testDnx'));
     }
 
-    public function test_offsetGet()
+    public function testOffsetGet()
     {
         $object = new BaseDto();
         $object->test = 'true';
@@ -30,7 +31,7 @@ class ArrayAccessTraitTest extends AbstractTest
         self::assertNull($object->offsetGet('testDnx'));
     }
 
-    public function test_offsetSet()
+    public function testOffsetSet()
     {
         $object = new BaseDto();
 
@@ -41,7 +42,7 @@ class ArrayAccessTraitTest extends AbstractTest
         self::assertSame('true2', $object->offsetGet('test'));
     }
 
-    public function test_offsetUnset()
+    public function testOffsetUnset()
     {
         $object = new BaseDto();
 

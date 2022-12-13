@@ -5,27 +5,24 @@ declare(strict_types=1);
 namespace ByTIC\DataObjects\Casts;
 
 /**
- * Class AsArrayObject
- * @package ByTIC\DataObjects\Casts
+ * Class AsArrayObject.
  */
 class AsArrayObject implements Castable
 {
     /**
      * Get the caster class to use when casting from / to this cast target.
      *
-     * @param array $arguments
      * @return object|string
      */
     public static function castUsing(array $arguments)
     {
         $encoder = $arguments[0] ?? null;
-        return new class($encoder) implements CastsAttributes {
 
+        return new class($encoder) implements CastsAttributes {
             protected $encoder = 'json';
 
             /**
              *  constructor.
-             * @param $encoder
              */
             public function __construct($encoder)
             {
@@ -33,7 +30,7 @@ class AsArrayObject implements Castable
             }
 
             /**
-             * @inheritDoc
+             * {@inheritDoc}
              */
             public function get($model, $key, $value, $attributes): ArrayObject
             {
@@ -42,28 +39,30 @@ class AsArrayObject implements Castable
                 } else {
                     $value = $this->decode($value);
                 }
-                if (!is_array($value)) {
+                if (!\is_array($value)) {
                     $value = [];
                 }
+
                 return new ArrayObject($value);
             }
 
             /**
-             * @inheritDoc
+             * {@inheritDoc}
              */
             public function set($model, $key, $value, $attributes)
             {
-                if (is_string($value)) {
+                if (\is_string($value)) {
                     return [$key => $value];
                 }
                 if ($value instanceof ArrayObject) {
                     $value = $this->encode($value);
                 }
+
                 return [$key => $value];
             }
 
             /**
-             * @inheritDoc
+             * {@inheritDoc}
              */
             public function serialize($model, string $key, $value, array $attributes)
             {
@@ -71,26 +70,26 @@ class AsArrayObject implements Castable
             }
 
             /**
-             * @param $value
              * @return false|string
              */
             protected function encode($value)
             {
-                if ($this->encoder == 'serialize') {
+                if ('serialize' == $this->encoder) {
                     return $value instanceof ArrayObject ? $value->serialize() : serialize($value);
                 }
+
                 return json_encode($value);
             }
 
             /**
-             * @param $value
              * @return mixed
              */
             protected function decode($value)
             {
-                if ($this->encoder == 'serialize') {
+                if ('serialize' == $this->encoder) {
                     return unserialize($value);
                 }
+
                 return json_decode($value, true);
             }
         };

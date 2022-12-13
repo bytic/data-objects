@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Tests\Fixtures\Dto;
 
 use ByTIC\DataObjects\BaseDto;
 use ByTIC\DataObjects\Behaviors\Serializable\SerializableTrait;
 
 /**
- * Class Serializable
- * @package ByTIC\DataObjects\Tests\Fixtures\Dto
+ * Class Serializable.
  */
 class Serializable extends BaseDto
 {

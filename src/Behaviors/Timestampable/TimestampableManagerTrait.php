@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Behaviors\Timestampable;
 
 use Nip\Records\AbstractModels\RecordManager;
 use Nip\Records\EventManager\Events\Event;
 
 /**
- * Trait TimestampableManagerTrait
- * @package ByTIC\DataObjects\Behaviors\Timestampable
+ * Trait TimestampableManagerTrait.
  */
 trait TimestampableManagerTrait
 {
@@ -23,7 +24,7 @@ trait TimestampableManagerTrait
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function usesTimestampsDefault(): bool
     {
@@ -35,6 +36,7 @@ trait TimestampableManagerTrait
                 return $record->usesTimestamps();
             }
         }
+
         return $this->usesTimestampsDefaultTrait();
     }
 
@@ -55,7 +57,7 @@ trait TimestampableManagerTrait
 
         $events = ['creating' => 'create', 'updating' => 'update'];
         foreach ($events as $event => $type) {
-            if (is_callable('static::' . $event) == false) {
+            if (false == \is_callable('static::' . $event)) {
                 continue;
             }
             static::$event(

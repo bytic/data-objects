@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Tests\Behaviors\Castable;
 
 use ByTIC\DataObjects\Tests\AbstractTest;
@@ -8,12 +10,11 @@ use ByTIC\DataObjects\ValueCaster;
 use Nip\Utility\Date;
 
 /**
- * Class CastableTraitTest
- * @package ByTIC\DataObjects\Tests\Behaviors\Castable
+ * Class CastableTraitTest.
  */
 class CastableTraitTest extends AbstractTest
 {
-    public function test_castsDatetime()
+    public function testCastsDatetime()
     {
         $book = new Book();
         $date = date('Y-m-d');
@@ -24,7 +25,7 @@ class CastableTraitTest extends AbstractTest
         self::assertSame($date, $dateGet->format('Y-m-d'));
     }
 
-    public function test_transformInboundValue_Datetime()
+    public function testTransformInboundValueDatetime()
     {
         $book = new Book();
 
@@ -53,9 +54,10 @@ class CastableTraitTest extends AbstractTest
         self::assertSame($dateFormatted, $book->getPropertyRaw('published'));
     }
 
-    public function test_castsValueCache()
+    public function testCastsValueCache()
     {
-        $book = \Mockery::mock(Book::class)->shouldAllowMockingProtectedMethods()->makePartial();
+        $book = \Mockery::mock(Book::class)->makePartial();
+        $book->shouldAllowMockingProtectedMethods();
         $book->shouldNotReceive('castValue')->twice()->andReturnUsing(
             function ($key, $value) {
                 return ValueCaster::as($value, 'datetime');
@@ -70,7 +72,7 @@ class CastableTraitTest extends AbstractTest
         $dateGet = $book->published;
         self::assertInstanceOf(\DateTime::class, $dateGet);
         self::assertSame($date, $dateGet->format('Y-m-d'));
-        self::assertSame($date.' 00:00:00', $book->getAttribute('published'));
+        self::assertSame($date . ' 00:00:00', $book->getAttribute('published'));
 
         $book->published = '2019-01-01';
 

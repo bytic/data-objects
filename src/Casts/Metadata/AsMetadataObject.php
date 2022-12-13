@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Casts\Metadata;
 
 use ByTIC\DataObjects\Casts\Castable;
@@ -7,15 +9,13 @@ use ByTIC\DataObjects\Casts\CastsAttributes;
 use Nip\Utility\Json;
 
 /**
- * Class AsMetadataObject
- * @package ByTIC\DataObjects\Casts\Metadata
+ * Class AsMetadataObject.
  */
 class AsMetadataObject implements Castable
 {
     /**
      * Get the caster class to use when casting from / to this cast target.
      *
-     * @param array $arguments
      * @return object|string
      */
     public static function castUsing(array $arguments)
@@ -24,13 +24,11 @@ class AsMetadataObject implements Castable
         $metadataClass = $arguments[1] ?? Metadata::class;
 
         return new class($encoder, $metadataClass) implements CastsAttributes {
-
             protected $encoder = 'json';
             protected $metadataClass = Metadata::class;
 
             /**
              *  constructor.
-             * @param $encoder
              */
             public function __construct($encoder, $metadataClass)
             {
@@ -39,7 +37,7 @@ class AsMetadataObject implements Castable
             }
 
             /**
-             * @inheritDoc
+             * {@inheritDoc}
              */
             public function get($model, $key, $value, $attributes): Metadata
             {
@@ -48,9 +46,10 @@ class AsMetadataObject implements Castable
                 } else {
                     $value = $this->decode($value);
                 }
-                if (!is_array($value)) {
+                if (!\is_array($value)) {
                     $value = [];
                 }
+
                 return (new $this->metadataClass($value))
                     ->setObserver(
                         function (Metadata $metadata) use ($model, $key) {
@@ -60,21 +59,22 @@ class AsMetadataObject implements Castable
             }
 
             /**
-             * @inheritDoc
+             * {@inheritDoc}
              */
             public function set($model, $key, $value, $attributes)
             {
-                if (is_string($value)) {
+                if (\is_string($value)) {
                     return [$key => $value];
                 }
                 if ($value instanceof Metadata) {
                     $value = $this->encode($value);
                 }
+
                 return [$key => $value];
             }
 
             /**
-             * @inheritDoc
+             * {@inheritDoc}
              */
             public function serialize($model, string $key, $value, array $attributes)
             {
@@ -82,26 +82,26 @@ class AsMetadataObject implements Castable
             }
 
             /**
-             * @param $value
              * @return false|string
              */
             protected function encode($value)
             {
-                if ($this->encoder == 'serialize') {
+                if ('serialize' == $this->encoder) {
                     return $value instanceof Metadata ? $value->serialize() : serialize($value);
                 }
+
                 return json_encode($value);
             }
 
             /**
-             * @param $value
              * @return mixed
              */
             protected function decode($value)
             {
-                if ($this->encoder == 'serialize') {
+                if ('serialize' == $this->encoder) {
                     return unserialize($value);
                 }
+
                 return Json::decode($value, true);
             }
         };

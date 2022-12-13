@@ -8,8 +8,7 @@ use ByTIC\DataObjects\Exceptions\InvalidCastException;
 use ByTIC\DataObjects\ValueCaster;
 
 /**
- * Trait CastableTrait
- * @package ByTIC\DataObjects\Behaviors\Castable
+ * Trait CastableTrait.
  */
 trait CastableTrait
 {
@@ -21,7 +20,7 @@ trait CastableTrait
     protected $casts = [];
 
     /**
-     * The attributes casted values
+     * The attributes casted values.
      *
      * @var array
      */
@@ -35,13 +34,11 @@ trait CastableTrait
     protected $classCastCache = [];
 
     /**
-     * @param $key
-     * @param $value
      * @return mixed
      */
     public function transformValue($key, $value)
     {
-        if (isset($this->castsValueCache[$key]) && $value != null) {
+        if (isset($this->castsValueCache[$key]) && null != $value) {
             return $this->castsValueCache[$key];
         }
 
@@ -57,8 +54,6 @@ trait CastableTrait
     }
 
     /**
-     * @param $key
-     * @param $value
      * @return mixed
      */
     public function transformInboundValue($key, $value)
@@ -67,66 +62,60 @@ trait CastableTrait
 
         if ($value && $this->isDateCastable($key)) {
             $value = ValueCaster::asDateTime($value);
+
             return $value instanceof \DateTime ? $value->format('Y-m-d H:i:s') : null;
         }
         if ($this->isClassCastable($key)) {
             return $this->transformClassCastableAttribute($key, $value);
         }
+
         return $value;
     }
 
     /**
      * Determine whether an attribute should be cast to a native type.
      *
-     * @param string $key
+     * @param string            $key
      * @param array|string|null $types
-     * @return bool
      */
     public function hasCast($key, $types = null): bool
     {
-        if (array_key_exists($key, $this->getCasts())) {
-            return $types ? in_array($this->getCastType($key), (array)$types, true) : true;
+        if (\array_key_exists($key, $this->getCasts())) {
+            return $types ? \in_array($this->getCastType($key), (array) $types, true) : true;
         }
 
         return false;
     }
 
-
     /**
      * Get the casts array.
-     *
-     * @return array
      */
     public function getCasts(): array
     {
         return $this->casts;
     }
 
-    /**
-     * @param $attribute
-     * @param $cast
-     * @return self
-     */
     public function addCast($attribute, $cast): self
     {
         $this->casts[$attribute] = $cast;
+
         return $this;
     }
 
     /**
      * Cast an attribute to a native PHP type.
      *
-     * @param string $key
      * @param mixed $value
+     *
      * @return mixed
      */
     protected function castValue(string $key, $value)
     {
         $castType = $this->getCastType($key);
 
-        $isPrimitiveType = in_array($castType, ValueCaster::$primitiveTypes);
+        $isPrimitiveType = \in_array($castType, ValueCaster::$primitiveTypes);
 
-        if (is_null($value) && $isPrimitiveType) {
+        if (null === $value && $isPrimitiveType) {
             return $value;
         }
 
@@ -141,10 +130,6 @@ trait CastableTrait
         return $value;
     }
 
-    /**
-     * @param $key
-     * @param $value
-     */
     protected function transformClassCastableAttribute($key, $value)
     {
         $caster = $this->resolveCasterClass($key);
@@ -158,19 +143,20 @@ trait CastableTrait
             unset($responseValues[$key]);
         }
 
-        if ($caster instanceof CastsInboundAttributes || !is_object($value)) {
+        if ($caster instanceof CastsInboundAttributes || !\is_object($value)) {
             unset($this->classCastCache[$key]);
         } else {
             $this->classCastCache[$key] = $value;
         }
+
         return $return;
     }
 
     /**
      * Cast the given attribute using a custom cast class.
      *
-     * @param string $key
      * @param mixed $value
+     *
      * @return mixed
      */
     protected function getClassCastableAttributeValue(string $key, $value)
@@ -184,7 +170,7 @@ trait CastableTrait
                 ? $value
                 : $caster->get($this, $key, $value, $this->attributes);
 
-            if ($caster instanceof CastsInboundAttributes || !is_object($value)) {
+            if ($caster instanceof CastsInboundAttributes || !\is_object($value)) {
                 unset($this->classCastCache[$key]);
             } else {
                 $this->classCastCache[$key] = $value;
@@ -196,9 +182,6 @@ trait CastableTrait
 
     /**
      * Get the type of cast for a model attribute.
-     *
-     * @param string $key
-     * @return string
      */
     protected function getCastType(string $key): string
     {
@@ -215,32 +198,23 @@ trait CastableTrait
 
     /**
      * Determine if the cast type is a custom date time cast.
-     *
-     * @param string $cast
-     * @return bool
      */
     protected function isCustomDateTimeCast(string $cast): bool
     {
-        return strncmp($cast, 'date:', 5) === 0 ||
-            strncmp($cast, 'datetime:', 9) === 0;
+        return 0 === strncmp($cast, 'date:', 5) ||
+            0 === strncmp($cast, 'datetime:', 9);
     }
 
     /**
      * Determine if the cast type is a decimal cast.
-     *
-     * @param string $cast
-     * @return bool
      */
     protected function isDecimalCast(string $cast): bool
     {
-        return strncmp($cast, 'decimal:', 8) === 0;
+        return 0 === strncmp($cast, 'decimal:', 8);
     }
 
     /**
      * Determine whether a value is Date / DateTime castable for inbound manipulation.
-     *
-     * @param string $key
-     * @return bool
      */
     protected function isDateCastable(string $key): bool
     {
@@ -249,9 +223,6 @@ trait CastableTrait
 
     /**
      * Determine whether a value is JSON castable for inbound manipulation.
-     *
-     * @param string $key
-     * @return bool
      */
     protected function isJsonCastable(string $key): bool
     {
@@ -265,27 +236,23 @@ trait CastableTrait
                 'encrypted:array',
                 'encrypted:collection',
                 'encrypted:json',
-                'encrypted:object'
+                'encrypted:object',
             ]
         );
     }
 
-
     /**
      * Determine if the given key is cast using a custom class.
-     *
-     * @param string $key
-     * @return bool
      */
     protected function isClassCastable(string $key): bool
     {
-        if (!array_key_exists($key, $this->getCasts())) {
+        if (!\array_key_exists($key, $this->getCasts())) {
             return false;
         }
 
         $castType = $this->parseCasterClass($this->getCasts()[$key]);
 
-        if (in_array($castType, ValueCaster::$primitiveTypes)) {
+        if (\in_array($castType, ValueCaster::$primitiveTypes)) {
             return false;
         }
 
@@ -296,11 +263,9 @@ trait CastableTrait
         throw new InvalidCastException($this, $key, $castType);
     }
 
-
     /**
      * Resolve the custom caster class for a given key.
      *
-     * @param string $key
      * @return mixed
      */
     protected function resolveCasterClass(string $key)
@@ -309,7 +274,7 @@ trait CastableTrait
 
         $arguments = [];
 
-        if (is_string($castType) && strpos($castType, ':') !== false) {
+        if (\is_string($castType) && false !== strpos($castType, ':')) {
             $segments = explode(':', $castType, 2);
 
             $castType = $segments[0];
@@ -320,7 +285,7 @@ trait CastableTrait
             $castType = $castType::castUsing($arguments);
         }
 
-        if (is_object($castType)) {
+        if (\is_object($castType)) {
             return $castType;
         }
 
@@ -329,13 +294,10 @@ trait CastableTrait
 
     /**
      * Parse the given caster class, removing any arguments.
-     *
-     * @param string $class
-     * @return string
      */
     protected function parseCasterClass(string $class): string
     {
-        return strpos($class, ':') === false
+        return false === strpos($class, ':')
             ? $class
             : explode(':', $class, 2)[0];
     }
@@ -343,12 +305,10 @@ trait CastableTrait
     /**
      * Normalize the response from a custom class caster.
      *
-     * @param string $key
      * @param mixed $value
-     * @return array
      */
     protected function normalizeCastClassResponse(string $key, $value): array
     {
-        return is_array($value) ? $value : [$key => $value];
+        return \is_array($value) ? $value : [$key => $value];
     }
 }

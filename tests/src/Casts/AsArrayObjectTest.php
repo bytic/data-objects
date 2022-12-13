@@ -1,20 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Tests\Casts;
 
 use ByTIC\DataObjects\Tests\AbstractTest;
 use ByTIC\DataObjects\Tests\Fixtures\Models\Books\Book;
 
 /**
- * Class SerializedCollectionTest
- * @package ByTIC\DataObjects\Tests\Casts
+ * Class SerializedCollectionTest.
  */
 class AsArrayObjectTest extends AbstractTest
 {
     /**
      * @dataProvider data_cast_values
      */
-    public function test_cast_values($string, $return)
+    public function testCastValues($string, $return)
     {
         $book = new Book();
         $book->fill(['properties' => $string]);
@@ -39,20 +40,20 @@ class AsArrayObjectTest extends AbstractTest
         ];
     }
 
-    public function test_cast_null()
+    public function testCastNull()
     {
         $book = new Book();
         $book->fill(
             [
-                'properties' => null
+                'properties' => null,
             ]
         );
 
         /** @var \ArrayObject $propertiesValue */
         $propertiesValue = $book->get('properties');
         self::assertInstanceOf(\ArrayObject::class, $propertiesValue);
-        self::assertArrayNotHasKey('option1', $propertiesValue, 1);
-        self::assertSame(null, $book->getAttribute('properties'));
+        self::assertArrayNotHasKey('option1', $propertiesValue, "Should not have option1");
+        self::assertNull($book->getAttribute('properties'));
 
         $propertiesValue['options3'] = 'value3';
         $book->set('properties', $propertiesValue);
@@ -63,19 +64,19 @@ class AsArrayObjectTest extends AbstractTest
         );
     }
 
-    public function test_cast_string()
+    public function testCastString()
     {
         $book = new Book();
         $book->fill(
             [
-                'properties' => 'N;'
+                'properties' => 'N;',
             ]
         );
 
         /** @var \ArrayObject $propertiesValue */
         $propertiesValue = $book->get('properties');
         self::assertInstanceOf(\ArrayObject::class, $propertiesValue);
-        self::assertArrayNotHasKey('option1', $propertiesValue, 1);
+        self::assertArrayNotHasKey('option1', $propertiesValue, "Should not have option1");
         self::assertSame('N;', $book->getAttribute('properties'));
 
         $propertiesValue['options3'] = 'value3';
@@ -87,26 +88,26 @@ class AsArrayObjectTest extends AbstractTest
         );
     }
 
-    public function test_cast_invalid()
+    public function testCastInvalid()
     {
         $book = new Book();
         $book->fill(
             [
-                'properties' => '{789}'
+                'properties' => '{789}',
             ]
         );
         $this->expectError();
         $book->get('properties');
     }
 
-    public function test_cast()
+    public function testCast()
     {
         $properties = ['option1' => 1, 'option2' => '2'];
         $propertiesSerialized = serialize($properties);
         $book = new Book();
         $book->fill(
             [
-                'properties' => $propertiesSerialized
+                'properties' => $propertiesSerialized,
             ]
         );
 

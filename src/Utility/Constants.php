@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Utility;
 
 /**
- * Class Constants
- * @package ByTIC\DataObjects\Utility
+ * Class Constants.
  */
 class Constants
 {

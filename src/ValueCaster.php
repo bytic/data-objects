@@ -1,20 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use DateTime;
-use DateTimeInterface;
 
 /**
- * Class ValueCaster
- * @package ByTIC\DataObjects
+ * Class ValueCaster.
  */
 class ValueCaster
 {
     /**
-     * The built-in, primitive cast types
+     * The built-in, primitive cast types.
      *
      * @var array
      */
@@ -43,7 +43,7 @@ class ValueCaster
         switch ($type) {
             case 'int':
             case 'integer':
-                return (int)$value;
+                return (int) $value;
 
             case 'real':
             case 'float':
@@ -71,7 +71,6 @@ class ValueCaster
             case 'timestamp':
                 return static::asTimestamp($value);
 
-
             case 'object':
                 return static::fromJson($value, true);
 
@@ -82,44 +81,41 @@ class ValueCaster
     }
 
     /**
-     * Cast given value to a string
+     * Cast given value to a string.
      *
      * @param mixed $value
-     *
-     * @return string
      */
     public static function asString($value): string
     {
-        return (string)$value;
+        return (string) $value;
     }
 
     /**
-     * Cast given value to a string
+     * Cast given value to a string.
      *
      * @param mixed $value
-     *
-     * @return string
      */
-    public static function asInteger($value): string
+    public static function asInteger($value): int
     {
-        return (int)$value;
+        return (int) $value;
     }
 
     /**
      * Decode the given float.
      *
-     * @param  mixed  $value
+     * @param mixed $value
+     *
      * @return mixed
      */
     public static function asFloat($value)
     {
         switch ((string) $value) {
             case 'Infinity':
-                return INF;
+                return \INF;
             case '-Infinity':
-                return -INF;
+                return -\INF;
             case 'NaN':
-                return NAN;
+                return \NAN;
             default:
                 return (float) $value;
         }
@@ -128,8 +124,9 @@ class ValueCaster
     /**
      * Return a decimal as string.
      *
-     * @param  float  $value
-     * @param  int  $decimals
+     * @param float $value
+     * @param int   $decimals
+     *
      * @return string
      */
     public static function asDecimal($value, $decimals = 3)
@@ -138,26 +135,26 @@ class ValueCaster
     }
 
     /**
-     * Cast given value to a DateTime instance
+     * Cast given value to a DateTime instance.
      *
      * @param string|null $value
      *
-     * @return Carbon|DateTimeInterface
+     * @return Carbon|\DateTimeInterface
      */
     public static function asDate($value)
     {
         $date = static::asDateTime($value);
-        if ($date === null) {
+        if (null === $date) {
             return null;
         }
+
         return $date->startOfDay();
     }
 
     /**
-     * @param $value
-     * @return ?DateTime
+     * @return ?\DateTime
      */
-    public static function asDateTime($value): ?DateTime
+    public static function asDateTime($value): ?\DateTime
     {
         if (empty($value)) {
             return null;
@@ -172,7 +169,7 @@ class ValueCaster
         // If the value is already a DateTime instance, we will just skip the rest of
         // these checks since they will be a waste of time, and hinder performance
         // when checking the field. We will just return the DateTime right away.
-        if ($value instanceof DateTimeInterface) {
+        if ($value instanceof \DateTimeInterface) {
             return Carbon::parse(
                 $value->format('Y-m-d H:i:s.u'),
                 $value->getTimezone()
@@ -198,7 +195,8 @@ class ValueCaster
      * Decode the given JSON back into an array or object.
      *
      * @param string $value
-     * @param bool $asObject
+     * @param bool   $asObject
+     *
      * @return mixed
      */
     public static function fromJson($value, $asObject = false)
@@ -207,7 +205,6 @@ class ValueCaster
     }
 
     /**
-     * @param $value
      * @return false|string
      */
     public static function asJson($value)

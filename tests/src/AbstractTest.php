@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Tests;
 
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class AbstractTest
- * @package ByTIC\DataObjects\Tests
+ * Class AbstractTest.
  */
 abstract class AbstractTest extends TestCase
 {

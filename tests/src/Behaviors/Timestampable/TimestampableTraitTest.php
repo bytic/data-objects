@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Tests\Behaviors\Timestampable;
 
 use ByTIC\DataObjects\Tests\AbstractTest;
@@ -11,12 +13,11 @@ use Mockery\Mock;
 use Nip\Utility\Date;
 
 /**
- * Class TimestampableTraitTest
- * @package ByTIC\DataObjects\Tests\Behaviors\Timestampable
+ * Class TimestampableTraitTest.
  */
 class TimestampableTraitTest extends AbstractTest
 {
-    public function test_getTimestampsAttributes()
+    public function testGetTimestampsAttributes()
     {
         $object = new CustomTimestampable();
 
@@ -28,7 +29,7 @@ class TimestampableTraitTest extends AbstractTest
         self::assertSame(['modified'], $object->getTimestampAttributes('update'));
     }
 
-    public function test_setModelTimeAttribute()
+    public function testSetModelTimeAttribute()
     {
         $object = new CustomTimestampable();
 
@@ -64,7 +65,7 @@ class TimestampableTraitTest extends AbstractTest
         $object->setModelTimeAttribute('created', 'test');
     }
 
-    public function test_hookCastableTrait()
+    public function testHookCastableTrait()
     {
         $book = new Book();
         $book->bootTimestampableTrait();
@@ -77,7 +78,7 @@ class TimestampableTraitTest extends AbstractTest
         self::assertSame($date1->toDateTimeString(), $dateGet->toDateTimeString());
     }
 
-    public function test_usesTimestamps_called_once()
+    public function testUsesTimestampsCalledOnce()
     {
         /** @var Mock|NoProperties $book */
         $book = \Mockery::mock(NoProperties::class)->shouldAllowMockingProtectedMethods()->makePartial();
@@ -89,7 +90,7 @@ class TimestampableTraitTest extends AbstractTest
         self::assertTrue($book->usesTimestamps());
     }
 
-    public function test_updatedTimestamps()
+    public function testUpdatedTimestamps()
     {
         $book = new Book();
         $date1 = Date::now();
@@ -113,7 +114,7 @@ class TimestampableTraitTest extends AbstractTest
         self::assertSame($date1->toDateTimeString(), $dateGet->toDateTimeString());
     }
 
-    public function test_createTimestamps()
+    public function testCreateTimestamps()
     {
         $object = new CreateTimestamps();
 
@@ -123,6 +124,5 @@ class TimestampableTraitTest extends AbstractTest
         self::assertSame([], $object->getTimestampAttributes('test'));
         self::assertSame(['created'], $object->getTimestampAttributes('create'));
         self::assertSame([], $object->getTimestampAttributes('update'));
-
     }
 }

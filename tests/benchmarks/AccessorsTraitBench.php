@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use ByTIC\DataObjects\Tests\Fixtures\Dto\ObjectWithGetSet;
 
 /**
- * Class AccessorsTraitBench
+ * Class AccessorsTraitBench.
+ *
  * @Iterations(5)
  * @Revs(100)
  * @BeforeMethods({"init"})

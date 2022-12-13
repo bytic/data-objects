@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Tests\Behaviors\TrackOriginal;
 
 use ByTIC\DataObjects\Tests\AbstractTest;
 use ByTIC\DataObjects\Tests\Fixtures\Models\Books\Book;
 
 /**
- * Class TrackOriginalTraitTest
- * @package ByTIC\DataObjects\Tests\Behaviors\TrackOriginal
+ * Class TrackOriginalTraitTest.
  */
 class TrackOriginalTraitTest extends AbstractTest
 {
-    public function test_getDirty_with_empty_array()
+    public function testGetDirtyWithEmptyArray()
     {
         $book = new Book();
         $book->name = 'name1';
@@ -20,7 +21,7 @@ class TrackOriginalTraitTest extends AbstractTest
         self::assertSame(['name' => 'Name1', 'title' => 'title1'], $book->getDirty());
     }
 
-    public function test_getDirty_with_fields()
+    public function testGetDirtyWithFields()
     {
         $book = new Book();
         $book->name = 'name1';
@@ -29,12 +30,12 @@ class TrackOriginalTraitTest extends AbstractTest
         self::assertSame(['name' => 'Name1'], $book->getDirty(['name']));
     }
 
-    public function test_syncOriginal()
+    public function testSyncOriginal()
     {
         $book = new Book();
         self::assertSame([], $book->getOriginalData());
 
-        $book->fill(['name' => 'name1', 'title' > 'title1']);
+        $book->fill(['name' => 'name1', 'title' => 'title1',]);
         self::assertSame([], $book->getOriginalData());
 
         $book->fillOriginal(['name' => 'name1', 'title' => 'title1']);

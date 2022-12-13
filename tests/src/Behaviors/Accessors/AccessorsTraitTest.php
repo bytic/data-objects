@@ -10,12 +10,11 @@ use ByTIC\DataObjects\Tests\Fixtures\Models\Books\Book;
 use ByTIC\DataObjects\Utility\Constants;
 
 /**
- * Class AccessorsTraitTest
- * @package ByTIC\DataObjects\Tests\Behaviors\ArrayAccess
+ * Class AccessorsTraitTest.
  */
 class AccessorsTraitTest extends AbstractTest
 {
-    public function test_compileMutators_only_once()
+    public function testCompileMutatorsOnlyOnce()
     {
         $book1 = new Book();
         $book1->name = 'Test';
@@ -25,7 +24,7 @@ class AccessorsTraitTest extends AbstractTest
         self::assertSame(1, $book1::$compiled);
     }
 
-    public function test_getter_internal_property()
+    public function testGetterInternalProperty()
     {
         $book1 = new Book(['name' => 'test']);
 
@@ -34,7 +33,7 @@ class AccessorsTraitTest extends AbstractTest
         self::assertSame('Test', $book1->getAttribute('name'));
     }
 
-    public function test_getter_magic_property()
+    public function testGetterMagicProperty()
     {
         $object = new ObjectWithGetSet(['name' => 'test', 'options' => 'test']);
 
@@ -47,16 +46,15 @@ class AccessorsTraitTest extends AbstractTest
         self::assertSame('test', $object->get('options'));
     }
 
-    public function test_setter_private_property()
+    public function testSetterPrivateProperty()
     {
         $object = new ObjectWithGetSet(['name' => 'test', 'value_id' => '1']);
 
         self::assertSame('test', $object->getName());
         self::assertSame(1, $object->getValueId());
-
     }
 
-    public function test_callAccessors_setter()
+    public function testCallAccessorsSetter()
     {
         $book1 = new Book();
         $book1->name = 'test';
@@ -64,16 +62,16 @@ class AccessorsTraitTest extends AbstractTest
         self::assertSame('Test', $book1->name);
     }
 
-    public function test_compileMutators()
+    public function testCompileMutators()
     {
         $book1 = new Book();
         self::assertSame(Constants::NO_ACCESSORS_FOUND, $book1->getMutated('attribute'));
     }
 
-    public function test_setter_magic_property()
+    public function testSetterMagicProperty()
     {
         $object = new ObjectWithGetSet();
-        self::assertSame(null, $object->name);
+        self::assertNull($object->name);
 
         $object = new ObjectWithGetSet(['name' => 'test']);
 

@@ -7,8 +7,7 @@ namespace ByTIC\DataObjects\Tests\Fixtures\Dto;
 use ByTIC\DataObjects\BaseDto;
 
 /**
- * Class ObjectWithGetSet
- * @package ByTIC\DataObjects\Tests\Fixtures\Dto
+ * Class ObjectWithGetSet.
  *
  * @property string $name
  */
@@ -27,7 +26,6 @@ class ObjectWithGetSet extends BaseDto
     }
 
     /**
-     * @param $value
      * @return mixed
      */
     public function setName($value)
@@ -59,17 +57,11 @@ class ObjectWithGetSet extends BaseDto
         $this->title = $title;
     }
 
-    /**
-     * @return int|null
-     */
     public function getValueId(): ?int
     {
         return $this->value_id;
     }
 
-    /**
-     * @param int|null $pool_id
-     */
     public function setValueId(?int $pool_id): void
     {
         $this->value_id = $pool_id;

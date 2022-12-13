@@ -1,16 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Tests;
 
 use ByTIC\DataObjects\Tests\Fixtures\Models\Books\Book;
 
 /**
- * Class BaseDtoTest
- * @package ByTIC\DataObjects\Tests
+ * Class BaseDtoTest.
  */
 class BaseDtoTest extends AbstractTest
 {
-    public function test_properties_internal_and_in_attributes()
+    public function testPropertiesInternalAndInAttributes()
     {
         $book1 = new Book();
         $book1->title = 'Test';

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Tests\Fixtures\Models\Books;
 
 use ByTIC\DataObjects\BaseDto;
@@ -8,8 +10,7 @@ use ByTIC\DataObjects\Casts\AsArrayObject;
 use ByTIC\DataObjects\Casts\Metadata\AsMetadataObject;
 
 /**
- * Class Book
- * @package ByTIC\DataObjects\Tests\Fixtures\Models\Books
+ * Class Book.
  */
 class Book extends BaseDto
 {
@@ -29,9 +30,6 @@ class Book extends BaseDto
 
     public static $compiled = 0;
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name)
     {
         $this->setPropertyValue('name', ucfirst($name));
@@ -49,7 +47,7 @@ class Book extends BaseDto
 
     protected static function compileMutators()
     {
-        static::$compiled++;
+        ++static::$compiled;
         parent::compileMutators();
     }
 }

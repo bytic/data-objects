@@ -6,14 +6,11 @@ namespace ByTIC\DataObjects\Casts;
 
 use ArrayObject as BaseArrayObject;
 use ByTIC\DataObjects\Behaviors\Serializable\SerializableTrait;
-use JsonSerializable;
-use Serializable;
 
 /**
- * Class ArrayObject
- * @package ByTIC\DataObjects\Casts
+ * Class ArrayObject.
  */
-class ArrayObject extends BaseArrayObject implements JsonSerializable, Serializable
+class ArrayObject extends BaseArrayObject implements \JsonSerializable, \Serializable
 {
     use SerializableTrait;
 
@@ -28,7 +25,7 @@ class ArrayObject extends BaseArrayObject implements JsonSerializable, Serializa
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function __sleep()
     {

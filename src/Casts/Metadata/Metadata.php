@@ -6,41 +6,34 @@ namespace ByTIC\DataObjects\Casts\Metadata;
 
 use ArrayObject as BaseArrayObject;
 use ByTIC\DataObjects\Behaviors\Serializable\SerializableTrait;
-use JsonSerializable;
-use Serializable;
 
 /**
- * Class ArrayObject
- * @package ByTIC\DataObjects\Casts\Metadata
+ * Class ArrayObject.
  */
-class Metadata extends BaseArrayObject implements JsonSerializable, Serializable
+class Metadata extends BaseArrayObject implements \JsonSerializable, \Serializable
 {
     use SerializableTrait;
 
     /**
-     * @var null|callable
+     * @var callable|null
      */
     protected $observer = null;
 
     /**
-     * @param string $key
-     * @param $default
      * @return mixed
      */
     public function get(string $key, $default = null)
     {
-        if (strpos($key, '.') === false) {
+        if (false === strpos($key, '.')) {
             $value = $this->getByKey($key);
         } else {
             $value = $this->getByPath($key);
         }
 
-        return $value === null ? $default : $value;
+        return null === $value ? $default : $value;
     }
 
     /**
-     * @param $name
-     * @param $value
      * @return $this
      */
     public function set($name, $value)
@@ -50,6 +43,7 @@ class Metadata extends BaseArrayObject implements JsonSerializable, Serializable
 
     /**
      * @param string $key
+     *
      * @return mixed|null
      */
     public function getByKey($key)
@@ -65,6 +59,7 @@ class Metadata extends BaseArrayObject implements JsonSerializable, Serializable
      * Determine if the given configuration value exists.
      *
      * @param string $key
+     *
      * @return bool
      */
     public function hasByKey($key)
@@ -73,7 +68,6 @@ class Metadata extends BaseArrayObject implements JsonSerializable, Serializable
     }
 
     /**
-     * @param string $path
      * @return string
      */
     protected function getByPath(string $path)
@@ -92,37 +86,37 @@ class Metadata extends BaseArrayObject implements JsonSerializable, Serializable
     }
 
     /**
-     * @param $name
-     * @param $value
      * @return $this
      */
     protected function setDataItem($name, $value)
     {
         if (null === $name) {
             $this[] = $value;
+
             return $this;
         }
 
-        if (strpos($name, '.') === false) {
+        if (false === strpos($name, '.')) {
             $this[$name] = $value;
             $this->callObserver();
+
             return $this;
         }
         $parts = explode('.', $name);
-        $ptr =& $this;
+        $ptr = &$this;
 
-        if (is_array($parts)) {
+        if (\is_array($parts)) {
             foreach ($parts as $part) {
                 if ('[]' == $part) {
-                    if (is_array($ptr)) {
-                        $ptr =& $ptr[];
+                    if (\is_array($ptr)) {
+                        $ptr = &$ptr[];
                     }
                 } else {
                     if (!isset($ptr[$part])) {
                         $ptr[$part] = [];
                     }
 
-                    $ptr =& $ptr[$part];
+                    $ptr = &$ptr[$part];
                 }
             }
         }
@@ -144,7 +138,7 @@ class Metadata extends BaseArrayObject implements JsonSerializable, Serializable
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function __sleep()
     {
@@ -162,7 +156,7 @@ class Metadata extends BaseArrayObject implements JsonSerializable, Serializable
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function offsetSet(mixed $key, mixed $value): void
     {
@@ -170,19 +164,15 @@ class Metadata extends BaseArrayObject implements JsonSerializable, Serializable
         $this->callObserver();
     }
 
-    /**
-     * @param callable|null $observer
-     * @return Metadata
-     */
     public function setObserver(?callable $observer): self
     {
         $this->observer = $observer;
+
         return $this;
     }
 
     protected function callObserver()
     {
-        call_user_func($this->observer, $this);
+        \call_user_func($this->observer, $this);
     }
-
 }

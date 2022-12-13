@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Casts;
 
 /**
- * Interface CastsInboundAttributes
- * @package ByTIC\DataObjects\Casts
+ * Interface CastsInboundAttributes.
  */
 interface CastsInboundAttributes
 {
@@ -12,9 +13,8 @@ interface CastsInboundAttributes
      * Transform the attribute to its underlying model values.
      *
      * @param object $model
-     * @param string $key
-     * @param mixed $value
-     * @param array $attributes
+     * @param mixed  $value
+     *
      * @return mixed
      */
     public function set($model, string $key, $value, array $attributes);

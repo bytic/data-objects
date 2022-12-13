@@ -1,14 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Exceptions;
 
-use RuntimeException;
-
 /**
- * Class InvalidCastException
- * @package ByTIC\DataObjects\Exceptions
+ * Class InvalidCastException.
  */
-class InvalidCastException extends RuntimeException
+class InvalidCastException extends \RuntimeException
 {
     /**
      * The name of the affected Eloquent model.
@@ -37,11 +36,12 @@ class InvalidCastException extends RuntimeException
      * @param object $model
      * @param string $column
      * @param string $castType
+     *
      * @return static
      */
     public function __construct($model, $column, $castType)
     {
-        $class = get_class($model);
+        $class = \get_class($model);
 
         parent::__construct("Call to undefined cast [{$castType}] on column [{$column}] in model [{$class}].");
 
