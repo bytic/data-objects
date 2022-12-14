@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ByTIC\DataObjects\Behaviors\PropertyOverloading;
 
 /**
@@ -169,7 +171,7 @@ trait PropertyOverloadingTrait
     public function has($key): bool
     {
         foreach ((array) $key as $prop) {
-            if (null === $this->get($prop)) {
+            if (false === $this->get($prop, false)) {
                 return false;
             }
         }

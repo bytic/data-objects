@@ -35,7 +35,7 @@ class TrackOriginalTraitTest extends AbstractTest
         $book = new Book();
         self::assertSame([], $book->getOriginalData());
 
-        $book->fill(['name' => 'name1', 'title' => 'title1',]);
+        $book->fill(['name' => 'name1', 'title' => 'title1']);
         self::assertSame([], $book->getOriginalData());
 
         $book->fillOriginal(['name' => 'name1', 'title' => 'title1']);

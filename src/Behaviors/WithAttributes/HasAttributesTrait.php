@@ -54,7 +54,7 @@ trait HasAttributesTrait
         if (empty($key)) {
             throw new \InvalidArgumentException('Please provide a key argument');
         }
-        if (!isset($this->attributes[$key])) {
+        if (!\array_key_exists($key, $this->attributes)) {
             return $default;
         }
 

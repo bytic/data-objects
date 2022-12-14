@@ -55,7 +55,7 @@ class AsMetadataObjectTest extends AbstractTest
         /** @var Metadata $propertiesValue */
         $propertiesValue = $book->get('metadata');
         self::assertInstanceOf(Metadata::class, $propertiesValue);
-        self::assertArrayNotHasKey('option1', $propertiesValue, "Should not have option1");
+        self::assertArrayNotHasKey('option1', $propertiesValue, 'Should not have option1');
         self::assertNull($book->getAttribute('metadata'));
 
         $propertiesValue['options3'] = 'value3';
@@ -79,7 +79,7 @@ class AsMetadataObjectTest extends AbstractTest
         /** @var Metadata $propertiesValue */
         $propertiesValue = $book->get('metadata');
         self::assertInstanceOf(Metadata::class, $propertiesValue);
-        self::assertArrayNotHasKey('option1', $propertiesValue, "Should not have option1");
+        self::assertArrayNotHasKey('option1', $propertiesValue, 'Should not have option1');
         self::assertSame('{}', $book->getAttribute('metadata'));
 
         $propertiesValue['options3'] = 'value3';

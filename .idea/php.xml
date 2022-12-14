@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="MessDetectorOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCSFixerOptionsConfiguration">
+    <option name="codingStandard" value="Custom" />
+    <option name="rulesetPath" value="$PROJECT_DIR$/.php_cs" />
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCodeSnifferOptionsConfiguration">
+    <option name="showSniffs" value="true" />
+    <option name="transferred" value="true" />
+  </component>
   <component name="PhpCSFixer">
     <phpcsfixer_settings>
       <PhpCSFixerConfiguration tool_path="$PROJECT_DIR$/vendor/bin/php-cs-fixer" />
@@ -30,7 +42,6 @@
       <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
       <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
-      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php72" />
       <path value="$PROJECT_DIR$/vendor/symfony/process" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
       <path value="$PROJECT_DIR$/vendor/symfony/stopwatch" />
@@ -62,9 +73,7 @@
       <path value="$PROJECT_DIR$/vendor/myclabs/deep-copy" />
       <path value="$PROJECT_DIR$/vendor/psr/container" />
       <path value="$PROJECT_DIR$/vendor/brick/math" />
-      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php73" />
       <path value="$PROJECT_DIR$/vendor/psr/log" />
-      <path value="$PROJECT_DIR$/vendor/php-cs-fixer/diff" />
       <path value="$PROJECT_DIR$/vendor/friendsofphp/php-cs-fixer" />
       <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
       <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
@@ -106,14 +115,41 @@
       <path value="$PROJECT_DIR$/vendor/webmozart/glob" />
       <path value="$PROJECT_DIR$/vendor/hamcrest/hamcrest-php" />
       <path value="$PROJECT_DIR$/vendor/mockery/mockery" />
+      <path value="$PROJECT_DIR$/vendor/symfony/var-exporter" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/deprecations" />
+      <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/vendor/madewithlove/license-checker" />
+      <path value="$PROJECT_DIR$/vendor/justinrainbow/json-schema" />
+      <path value="$PROJECT_DIR$/vendor/bytic/phpqatools" />
+      <path value="$PROJECT_DIR$/vendor/phpcsstandards/phpcsutils" />
+      <path value="$PROJECT_DIR$/vendor/phpcsstandards/phpcsextra" />
+      <path value="$PROJECT_DIR$/vendor/slevomat/coding-standard" />
+      <path value="$PROJECT_DIR$/vendor/dealerdirect/phpcodesniffer-composer-installer" />
+      <path value="$PROJECT_DIR$/vendor/ergebnis/json-printer" />
+      <path value="$PROJECT_DIR$/vendor/ergebnis/composer-normalize" />
+      <path value="$PROJECT_DIR$/vendor/ergebnis/json-schema-validator" />
+      <path value="$PROJECT_DIR$/vendor/ergebnis/json-normalizer" />
+      <path value="$PROJECT_DIR$/vendor/phpstan/phpstan-mockery" />
+      <path value="$PROJECT_DIR$/vendor/phpstan/phpstan-phpunit" />
+      <path value="$PROJECT_DIR$/vendor/phpstan/extension-installer" />
+      <path value="$PROJECT_DIR$/vendor/phpstan/phpdoc-parser" />
+      <path value="$PROJECT_DIR$/vendor/psalm/plugin-phpunit" />
+      <path value="$PROJECT_DIR$/vendor/psalm/plugin-mockery" />
+      <path value="$PROJECT_DIR$/vendor/localheinz/diff" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1">
     <option name="suggestChangeDefaultLanguageLevel" value="false" />
   </component>
+  <component name="PhpStanOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
   <component name="PhpUnit">
     <phpunit_settings>
       <PhpUnitSettings configuration_file_path="$PROJECT_DIR$/phpunit.xml.dist" custom_loader_path="$PROJECT_DIR$/vendor/autoload.php" phpunit_phar_path="" use_configuration_file="true" />
     </phpunit_settings>
+  </component>
+  <component name="PsalmOptionsConfiguration">
+    <option name="transferred" value="true" />
   </component>
 </project>

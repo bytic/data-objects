@@ -52,7 +52,7 @@ class AsArrayObjectTest extends AbstractTest
         /** @var \ArrayObject $propertiesValue */
         $propertiesValue = $book->get('properties');
         self::assertInstanceOf(\ArrayObject::class, $propertiesValue);
-        self::assertArrayNotHasKey('option1', $propertiesValue, "Should not have option1");
+        self::assertArrayNotHasKey('option1', $propertiesValue, 'Should not have option1');
         self::assertNull($book->getAttribute('properties'));
 
         $propertiesValue['options3'] = 'value3';
@@ -76,7 +76,7 @@ class AsArrayObjectTest extends AbstractTest
         /** @var \ArrayObject $propertiesValue */
         $propertiesValue = $book->get('properties');
         self::assertInstanceOf(\ArrayObject::class, $propertiesValue);
-        self::assertArrayNotHasKey('option1', $propertiesValue, "Should not have option1");
+        self::assertArrayNotHasKey('option1', $propertiesValue, 'Should not have option1');
         self::assertSame('N;', $book->getAttribute('properties'));
 
         $propertiesValue['options3'] = 'value3';
