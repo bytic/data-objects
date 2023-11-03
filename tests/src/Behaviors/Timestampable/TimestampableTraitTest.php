@@ -7,6 +7,7 @@ namespace ByTIC\DataObjects\Tests\Behaviors\Timestampable;
 use ByTIC\DataObjects\Tests\AbstractTest;
 use ByTIC\DataObjects\Tests\Fixtures\Dto\Timestampable\CreateTimestamps;
 use ByTIC\DataObjects\Tests\Fixtures\Dto\Timestampable\CustomTimestampable;
+use ByTIC\DataObjects\Tests\Fixtures\Dto\Timestampable\InheritTimestampable;
 use ByTIC\DataObjects\Tests\Fixtures\Dto\Timestampable\NoProperties;
 use ByTIC\DataObjects\Tests\Fixtures\Models\Books\Book;
 use Mockery\Mock;
@@ -17,6 +18,17 @@ use Nip\Utility\Date;
  */
 class TimestampableTraitTest extends AbstractTest
 {
+    /**
+     * @param $class
+     * @param $expected
+     * @return void
+     * @dataProvider data_usesTimestamps
+     */
+    public function test_usesTimestamps($class, $expected)
+    {
+        $object = new $class();
+        self::assertSame($expected, $object->usesTimestamps());
+    }
     public function testGetTimestampsAttributes()
     {
         $object = new CustomTimestampable();
@@ -124,5 +136,15 @@ class TimestampableTraitTest extends AbstractTest
         self::assertSame([], $object->getTimestampAttributes('test'));
         self::assertSame(['created'], $object->getTimestampAttributes('create'));
         self::assertSame([], $object->getTimestampAttributes('update'));
+    }
+
+    public function data_usesTimestamps()
+    {
+        return [
+            [NoProperties::class, false],
+            [InheritTimestampable::class, false],
+            [CustomTimestampable::class, true],
+            [CreateTimestamps::class, true],
+        ];
     }
 }

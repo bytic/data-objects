@@ -20,6 +20,11 @@ trait TimestampableTrait
     protected $timestampableTypes = ['create', 'update'];
 
     /**
+     * @var null|bool
+     */
+    protected $usesTimestamps = null;
+
+    /**
      * @throws \Exception
      */
     public function updatedTimestamps($attributes)
@@ -46,29 +51,28 @@ trait TimestampableTrait
      */
     public function usesTimestamps(): bool
     {
-        static $timestamps = null;
-        if (\is_bool($timestamps)) {
-            return $timestamps;
+        if (\is_bool($this->usesTimestamps)) {
+            return $this->usesTimestamps;
         }
         if (property_exists($this, 'timestamps')) {
-            $timestamps = $this->timestamps;
+            $this->usesTimestamps = $this->timestamps;
 
-            return $timestamps;
+            return $this->usesTimestamps;
         }
         if (property_exists($this, 'createTimestamps')) {
-            $timestamps = true;
+            $this->usesTimestamps = true;
 
-            return $timestamps;
+            return $this->usesTimestamps;
         }
         if (property_exists($this, 'updateTimestamps')) {
-            $timestamps = true;
+            $this->usesTimestamps = true;
 
-            return $timestamps;
+            return $this->usesTimestamps;
         }
 
-        $timestamps = $this->usesTimestampsDefault();
+        $this->usesTimestamps = $this->usesTimestampsDefault();
 
-        return $timestamps;
+        return $this->usesTimestamps;
     }
 
     /**
