@@ -11,7 +11,7 @@
     ],
     "homepage": "https://github.com/bytic/data-objects",
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "ext-json": "*",
         "ext-simplexml": "*",
         "bytic/inflector": "^1.0",
