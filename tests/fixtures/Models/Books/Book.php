@@ -30,6 +30,8 @@ class Book extends BaseDto
 
     public static $compiled = 0;
 
+    public static $events = [];
+
     public function setName(string $name)
     {
         $this->setPropertyValue('name', ucfirst($name));
@@ -49,5 +51,9 @@ class Book extends BaseDto
     {
         ++static::$compiled;
         parent::compileMutators();
+    }
+    public static function creating($callback)
+    {
+        self::$events['creating'] = $callback;
     }
 }
