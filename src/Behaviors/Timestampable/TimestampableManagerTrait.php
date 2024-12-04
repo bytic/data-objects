@@ -57,7 +57,6 @@ trait TimestampableManagerTrait
 
         $events = ['creating' => 'create', 'updating' => 'update'];
         foreach ($events as $event => $type) {
-            var_dump($event);
             if (false == \is_callable(self::class. '::' . $event)) {
                 continue;
             }
