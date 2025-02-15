@@ -183,5 +183,6 @@ class Metadata extends BaseArrayObject implements \JsonSerializable, \Serializab
         $this->exchangeArray(
             array_merge($this->getArrayCopy(), $metadata2)
         );
+        $this->callObserver();
     }
 }
