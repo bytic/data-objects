@@ -175,4 +175,13 @@ class Metadata extends BaseArrayObject implements \JsonSerializable, \Serializab
     {
         \call_user_func($this->observer, $this);
     }
+
+    public function merge(Metadata|array $metadata2): void
+    {
+        $metadata2 = $metadata2 instanceof Metadata ? $metadata2->toArray() : (array)$metadata2;
+        $metadata2 = array_filter($metadata2);
+        $this->exchangeArray(
+            array_merge($this->getArrayCopy(), $metadata2)
+        );
+    }
 }
